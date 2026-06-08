@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mantle Branding Colors */
+  --color-gold: #FFD700;
+  --color-gold-dark: #B8860B;
+  --color-gold-light: #FFED4A;
+  
+  --color-purple: #8B5CF6;
+  --color-purple-dark: #6D28D9;
+  --color-purple-light: #A78BFA;
+  
+  --color-blue: #3B82F6;
+  --color-blue-dark: #1D4ED8;
+  --color-blue-light: #60A5FA;
+  
+  --color-mantle-primary: #FFD700;
+  --color-mantle-secondary: #8B5CF6;
+  --color-mantle-accent: #3B82F6;
+  
+  /* Card Game Theme Colors */
+  --color-card-bg: #1a1a2e;
+  --color-card-border: #16213e;
+  --color-card-highlight: #0f3460;
+  
+  /* Custom Fonts */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --background: #0a0a0f;
+  --foreground: #ededed;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
