@@ -21,10 +21,21 @@ yarn-debug.log*
 yarn-error.log*
 
 # Local env files
+.env
 .env*.local
+.env.production
+.env.production.local
 
 # Vercel
 .vercel
+
+# Hardhat
+cache
+artifacts
+typechain
+
+# Deployment addresses
+deployments.json
 
 # TypeScript
 *.tsbuildinfo
@@ -35,3 +46,16 @@ next-env.d.ts
 .vscode
 *.swp
 *.swo
+.walke
+
+# Secrets and sensitive files
+*.log
+*.key
+secrets/
+credentials/
+
+# Build outputs
+dist/
+
+# OS files
+Thumbs.db

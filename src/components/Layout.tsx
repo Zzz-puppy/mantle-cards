@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
   { name: 'Collection', href: '/collection' },
   { name: 'Battle', href: '/battle' },
   { name: 'Market', href: '/market' },
+  { name: 'Leaderboard', href: '/leaderboard' },
   { name: 'Profile', href: '/profile' },
 ]
 
