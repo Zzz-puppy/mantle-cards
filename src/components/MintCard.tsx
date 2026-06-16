@@ -1,26 +1,22 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { useAccount } from 'wagmi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMintCard } from '@/hooks/useMintCard'
-import { useWallet } from '@/hooks/useWallet'
+import { useWallet } from '@/contexts/WalletContext'
 import type { Card } from '@/types/card'
-import type { WalletPortfolio } from '@/lib/mantle-data'
 import type { GeneratedCardAttributes } from '@/lib/card-generator'
 import { generateCardOptions } from '@/lib/card-generator'
 
 interface MintCardProps {
-  portfolio: WalletPortfolio | null
   onMintSuccess?: (card: Card) => void
   onMintError?: (error: Error) => void
 }
 
 type MintingStep = 'idle' | 'generating' | 'selecting' | 'confirming' | 'minting' | 'reveal' | 'complete'
 
-export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProps) {
-  const { isConnected, address } = useAccount()
-  const { connect } = useWallet()
+export function MintCard({ onMintSuccess, onMintError }: MintCardProps) {
+  const { state, connect } = useWallet()
   const { mintCard, isPending, error: mintError } = useMintCard()
   
   const [step, setStep] = useState<MintingStep>('idle')
@@ -30,12 +26,14 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
   const [txHash, setTxHash] = useState<string | null>(null)
   const [localError, setLocalError] = useState<string | null>(null)
 
-  // Handle wallet connection
+  const isConnected = state.isConnected
+  const address = state.address
+  const portfolio = state.portfolio
+
   const handleConnect = useCallback(() => {
     connect()
   }, [connect])
 
-  // Start minting process
   const handleStartMint = useCallback(() => {
     if (!portfolio) {
       setLocalError('Please connect your wallet to analyze portfolio')
@@ -45,7 +43,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
     setLocalError(null)
     setStep('generating')
     
-    // Generate card options based on portfolio
     setTimeout(() => {
       const options = generateCardOptions(portfolio, 3)
       setCardOptions(options)
@@ -53,13 +50,11 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
     }, 1500)
   }, [portfolio])
 
-  // Select a card option
   const handleSelectCard = useCallback((card: GeneratedCardAttributes) => {
     setSelectedCard(card)
     setStep('confirming')
   }, [])
 
-  // Confirm and mint
   const handleConfirmMint = useCallback(async () => {
     if (!selectedCard || !address) return
     
@@ -84,7 +79,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       setMintedCard(result.card as Card)
       setStep('reveal')
       
-      // Animate reveal
       setTimeout(() => {
         setStep('complete')
         onMintSuccess?.(result.card as Card)
@@ -97,7 +91,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
     }
   }, [selectedCard, address, mintCard, onMintSuccess, onMintError])
 
-  // Reset minting flow
   const handleReset = useCallback(() => {
     setStep('idle')
     setCardOptions([])
@@ -107,15 +100,12 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
     setLocalError(null)
   }, [])
 
-  // Go back to selection
   const handleBackToSelection = useCallback(() => {
     setSelectedCard(null)
     setStep('selecting')
   }, [])
 
-  // Render based on state
   const renderContent = () => {
-    // Not connected
     if (!isConnected) {
       return (
         <div className="flex flex-col items-center gap-4 p-6">
@@ -136,7 +126,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Idle - show mint button
     if (step === 'idle') {
       return (
         <div className="flex flex-col items-center gap-4 p-6">
@@ -158,7 +147,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Generating options
     if (step === 'generating') {
       return (
         <div className="flex flex-col items-center gap-4 p-6">
@@ -179,7 +167,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Selecting card
     if (step === 'selecting') {
       return (
         <div className="flex flex-col gap-4 p-6">
@@ -234,7 +221,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Confirming
     if (step === 'confirming' && selectedCard) {
       return (
         <div className="flex flex-col gap-4 p-6">
@@ -292,7 +278,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Minting
     if (step === 'minting') {
       return (
         <div className="flex flex-col items-center gap-4 p-6">
@@ -307,13 +292,12 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
             Minting Card...
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-center">
-            Please confirm the transaction in your wallet
+            Processing your NFT card
           </p>
         </div>
       )
     }
 
-    // Reveal
     if (step === 'reveal' && mintedCard) {
       return (
         <motion.div
@@ -355,7 +339,6 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
       )
     }
 
-    // Complete
     if (step === 'complete') {
       return (
         <div className="flex flex-col items-center gap-4 p-6">
@@ -409,21 +392,15 @@ export function MintCard({ portfolio, onMintSuccess, onMintError }: MintCardProp
           </motion.div>
         </AnimatePresence>
         
-        {/* Error display */}
-        <AnimatePresence>
-          {(localError || mintError) && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mx-6 mb-4 p-3 bg-red-900/20 border border-red-500/50 rounded-lg"
-            >
-              <p className="text-red-400 text-sm text-center">
-                {localError || mintError?.message}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {localError && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mx-6 mb-4 p-3 bg-red-900/20 border border-red-500/50 rounded-lg"
+          >
+            <p className="text-red-400 text-sm text-center">{localError}</p>
+          </motion.div>
+        )}
       </div>
     </div>
   )

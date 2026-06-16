@@ -3,6 +3,7 @@
 import type { Card as CardType } from '@/types'
 import { Card } from './Card'
 import { useState } from 'react'
+import { getRarityScore, sortByRarity } from '@/lib/card-utils'
 
 interface CardComparisonProps {
   cards: CardType[]
@@ -31,12 +32,10 @@ export function CardComparison({ cards, isOpen, onClose }: CardComparisonProps) 
   }
 
   const getSortedCards = () => {
-    const rarityOrder = { Legendary: 4, Epic: 3, Rare: 2, Common: 1 }
-    return [...cards].sort((a, b) => {
+    return sortByRarity(cards, false).sort((a, b) => {
       if (sortBy === 'attack') return b.attack - a.attack
       if (sortBy === 'defense') return b.defense - a.defense
-      return (rarityOrder[b.rarity as keyof typeof rarityOrder] || 0) - 
-             (rarityOrder[a.rarity as keyof typeof rarityOrder] || 0)
+      return 0
     })
   }
 
@@ -237,11 +236,6 @@ function ComparisonRow({ label, value1, value2, higher }: {
       </span>
     </div>
   )
-}
-
-function getRarityScore(rarity: string): number {
-  const scores: Record<string, number> = { Legendary: 4, Epic: 3, Rare: 2, Common: 1 }
-  return scores[rarity] || 0
 }
 
 function getOverallWinner(card1: CardType, card2: CardType): number {

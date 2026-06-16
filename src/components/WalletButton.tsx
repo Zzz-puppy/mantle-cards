@@ -1,62 +1,65 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useAccount, useBalance, useChainId } from 'wagmi'
 import { motion } from 'framer-motion'
 import { WalletModal } from './WalletModal'
 import { chainConfigs } from '@/lib/wagmi-config'
+import { useWallet } from '@/contexts/WalletContext'
 
 export function WalletButton() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   
-  const { address, isConnected, isConnecting } = useAccount()
-  const chainId = useChainId()
-  const { data: balance } = useBalance({
-    address: address,
-    query: {
-      enabled: isConnected && !!address,
-    },
-  })
+  const { state, connect, disconnect } = useWallet()
 
-  // Handle client-side mounting
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Get network info
-  const getNetworkInfo = () => {
+  const getNetworkInfo = (chainId: number | null) => {
     if (!chainId) return null
     const config = chainConfigs[chainId as keyof typeof chainConfigs]
     if (!config) return { name: `Chain ${chainId}`, isTestnet: false }
     return config
   }
 
-  const networkInfo = getNetworkInfo()
+  const networkInfo = getNetworkInfo(state.chainId)
 
-  // Truncate address
   const truncateAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
   }
 
-  // Format balance
   const formatBalance = (balance: bigint, decimals: number = 4) => {
     const num = Number(balance) / Math.pow(10, 18)
     if (num < 0.0001) return '< 0.0001'
     return num.toFixed(decimals)
   }
 
-  // Loading state
   if (!mounted) {
     return (
       <div className="h-10 w-32 bg-purple-dark/30 rounded-lg animate-pulse" />
     )
   }
 
+  const handleConnect = async () => {
+    if (state.isConnecting) return
+    if (state.isConnected) {
+      disconnect()
+    } else {
+      await connect()
+      setIsModalOpen(true)
+    }
+  }
+
+  const isConnected = state.isConnected
+  const isConnecting = state.isConnecting
+  const address = state.address
+  const balance = state.balance
+
   return (
     <>
       <motion.button
-        onClick={() => setIsModalOpen(true)}
+        onClick={handleConnect}
         disabled={isConnecting}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -76,7 +79,6 @@ export function WalletButton() {
           </div>
         ) : isConnected && address ? (
           <div className="flex items-center gap-3">
-            {/* Network indicator */}
             {networkInfo && (
               <div className={`
                 flex items-center gap-1 px-2 py-0.5 rounded-full text-xs
@@ -87,16 +89,12 @@ export function WalletButton() {
               </div>
             )}
             
-            {/* Address */}
             <span className="font-mono text-sm">{truncateAddress(address)}</span>
             
-            {/* Balance */}
-            {balance && (
-              <div className="flex items-center gap-1 text-sm opacity-80">
-                <span>{formatBalance(balance.value)}</span>
-                <span>{balance.symbol}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-1 text-sm opacity-80">
+              <span>{formatBalance(balance)}</span>
+              <span>MNT</span>
+            </div>
           </div>
         ) : (
           <div className="flex items-center gap-2">
@@ -105,7 +103,6 @@ export function WalletButton() {
           </div>
         )}
 
-        {/* Connection status indicator */}
         {isConnected && (
           <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-card-bg" />
         )}

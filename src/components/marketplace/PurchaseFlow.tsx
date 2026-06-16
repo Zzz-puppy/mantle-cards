@@ -63,8 +63,8 @@ export function PurchaseFlow({
   if (!listing) return null
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-2xl border border-white/10 max-w-md w-full overflow-hidden">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-start justify-center z-50 p-4 pt-8">
+      <div className="bg-gray-900 rounded-2xl border border-white/10 max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center justify-between">
@@ -152,20 +152,20 @@ export function PurchaseFlow({
             <>
               {/* Card Preview */}
               <div className={cn(
-                "aspect-[3/4] rounded-xl overflow-hidden",
+                "w-full rounded-xl overflow-hidden",
                 "bg-gradient-to-br",
                 rarity === 'Legendary' && "from-yellow-500 via-orange-500 to-red-600",
                 rarity === 'Epic' && "from-purple-600 to-purple-900",
                 rarity === 'Rare' && "from-blue-600 to-blue-900",
                 rarity === 'Common' && "from-gray-600 to-gray-800"
-              )}>
-                <div className="w-full h-full p-4 flex flex-col">
+              )} style={{ maxHeight: '400px' }}>
+                <div className="w-full h-full p-3 sm:p-4 flex flex-col">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-white font-bold text-lg drop-shadow-lg">
+                    <h3 className="text-white font-bold text-sm sm:text-lg drop-shadow-lg line-clamp-1">
                       {card?.name || `Card #${listing.tokenId}`}
                     </h3>
                     <span className={cn(
-                      "text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase",
+                      "text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full font-semibold uppercase",
                       rarity === 'Legendary' && "bg-gradient-to-r from-yellow-500 to-orange-500 text-black",
                       rarity === 'Epic' && "bg-purple-500/90 text-white",
                       rarity === 'Rare' && "bg-blue-500/90 text-white",
@@ -175,17 +175,23 @@ export function PurchaseFlow({
                     </span>
                   </div>
                   
-                  <div className="flex-1 flex items-center justify-center">
-                    <span className="text-7xl filter drop-shadow-2xl">
+                  <div className="flex-1 flex items-center justify-center min-h-[120px] sm:min-h-[150px]">
+                    <span className="text-5xl sm:text-6xl md:text-7xl filter drop-shadow-2xl">
                       {getCardEmoji(card?.type || CardTypeEnum.Attack)}
                     </span>
                   </div>
                   
-                  <div className="flex justify-between text-sm">
-                    <div className="bg-red-500/80 px-3 py-1 rounded-lg text-white font-bold">
+                  {card?.ability && (
+                    <p className="text-[10px] sm:text-xs text-white/70 italic mb-2 line-clamp-2 px-1">
+                      {card.ability}
+                    </p>
+                  )}
+                  
+                  <div className="flex justify-between text-[10px] sm:text-sm">
+                    <div className="bg-red-500/80 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-white font-bold">
                       ⚔️ {card?.attack || 0}
                     </div>
-                    <div className="bg-blue-500/80 px-3 py-1 rounded-lg text-white font-bold">
+                    <div className="bg-blue-500/80 px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-white font-bold">
                       🛡️ {card?.defense || 0}
                     </div>
                   </div>

@@ -3,9 +3,14 @@
 import { ReferralProgram } from '@/components/share/ReferralProgram'
 import { getShareStats } from '@/lib/social-share'
 import { useEffect, useState } from 'react'
+import { useWallet } from '@/contexts/WalletContext'
+import { formatEther } from '@/lib/utils'
 
 export default function Profile() {
   const [stats, setStats] = useState<{ totalShares: number; byPlatform: Record<string, number> } | null>(null)
+  
+  const { state, connect, disconnect } = useWallet()
+  const { address, isConnected, balance } = state
 
   useEffect(() => {
     setStats(getShareStats())
@@ -24,7 +29,7 @@ export default function Profile() {
               </div>
               <div>
                 <h2 className="text-2xl font-bold">Player One</h2>
-                <p className="text-gray-400">0x1234...5678</p>
+                <p className="text-gray-400">{isConnected && address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected'}</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4 mb-8">
@@ -43,9 +48,31 @@ export default function Profile() {
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-4">Wallet</h3>
-              <button className="px-6 py-3 bg-gradient-to-r from-gold to-gold-dark text-black font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                Connect Wallet
-              </button>
+              {isConnected ? (
+                <div className="space-y-4">
+                  <div className="bg-black/30 rounded-lg p-4">
+                    <p className="text-gray-400 text-sm mb-1">Connected Address</p>
+                    <p className="font-mono text-white">{address}</p>
+                  </div>
+                  <div className="bg-black/30 rounded-lg p-4">
+                    <p className="text-gray-400 text-sm mb-1">Balance</p>
+                    <p className="text-xl font-bold text-gold">{formatEther(balance)} MNT</p>
+                  </div>
+                  <button
+                    onClick={disconnect}
+                    className="w-full px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
+                  >
+                    Disconnect Wallet
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={connect}
+                  className="px-6 py-3 bg-gradient-to-r from-gold to-gold-dark text-black font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  Connect Wallet
+                </button>
+              )}
             </div>
           </div>
 

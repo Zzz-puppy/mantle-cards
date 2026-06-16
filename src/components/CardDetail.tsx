@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Card } from './Card'
 import { formatAddress } from '@/lib/utils'
 import { analyzeCard, type CardAnalysis } from '@/lib/ai-analyzer'
+import { ShareModal } from './share/ShareModal'
 
 interface CardDetailProps {
   card: CardType
@@ -19,6 +20,7 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
   const [showAnalysis, setShowAnalysis] = useState(false)
   const [analysis, setAnalysis] = useState<CardAnalysis | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [isShareOpen, setIsShareOpen] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -52,7 +54,7 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
       
       {/* Modal Content */}
       <div 
-        className={`relative z-10 max-w-4xl w-full transform transition-all duration-300
+        className={`relative z-10 max-w-4xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300
                    ${isVisible ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'}`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -64,9 +66,9 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
           ×
         </button>
 
-        <div className="bg-gradient-to-br from-gray-900 via-purple-950 to-gray-900 
+        <div className="bg-gradient-to-br from-[#1a1625] via-[#2d1f3d] to-[#1a2535]
                         rounded-2xl border border-white/10 overflow-hidden
-                        shadow-2xl shadow-purple-500/20">
+                        shadow-2xl shadow-[#7C6BAF]/20">
           {/* Header */}
           <div className="p-6 border-b border-white/10">
             <div className="flex items-center justify-between">
@@ -148,10 +150,10 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={onBattle}
-                  className="flex-1 bg-gradient-to-r from-red-600 to-red-500 
+                  className="flex-1 bg-gradient-to-r from-rose-600 to-rose-500
                            text-white font-bold py-3 px-6 rounded-xl
-                           hover:from-red-500 hover:to-red-400 transition-all
-                           shadow-lg shadow-red-500/30 hover:shadow-red-500/50
+                           hover:from-rose-500 hover:to-rose-400 transition-all
+                           shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40
                            flex items-center justify-center gap-2"
                 >
                   <span>⚔️</span> Battle
@@ -159,10 +161,10 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
                 <button
                   onClick={handleAnalyze}
                   disabled={isAnalyzing}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 
+                  className="flex-1 bg-gradient-to-r from-[#7C6BAF] to-[#9B8AC9]
                            text-white font-bold py-3 px-6 rounded-xl
-                           hover:from-purple-500 hover:to-pink-500 transition-all
-                           shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50
+                           hover:from-[#9B8AC9] hover:to-[#7C6BAF] transition-all
+                           shadow-lg shadow-[#7C6BAF]/25 hover:shadow-[#7C6BAF]/40
                            flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isAnalyzing ? (
@@ -178,10 +180,10 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
                 </button>
                 <button
                   onClick={onSell}
-                  className="flex-1 bg-gradient-to-r from-gold to-yellow-500 
+                  className="flex-1 bg-gradient-to-r from-[#C9A227] to-[#D4B445]
                            text-black font-bold py-3 px-6 rounded-xl
-                           hover:from-yellow-400 hover:to-gold transition-all
-                           shadow-lg shadow-gold/30 hover:shadow-gold/50
+                           hover:from-[#D4B445] hover:to-[#C9A227] transition-all
+                           shadow-lg shadow-[#C9A227]/25 hover:shadow-[#C9A227]/40
                            flex items-center justify-center gap-2"
                 >
                   <span>💰</span> Sell
@@ -190,7 +192,8 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
 
               {/* Share Button */}
               <button
-                className="w-full bg-white/5 hover:bg-white/10 text-white/80 
+                onClick={() => setIsShareOpen(true)}
+                className="w-full bg-white/5 hover:bg-white/10 text-white/80
                          py-2 px-4 rounded-xl border border-white/10
                          transition-all flex items-center justify-center gap-2 text-sm"
               >
@@ -199,7 +202,7 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
 
               {/* AI Analysis Result Panel */}
               {showAnalysis && analysis && (
-                <div className="mt-4 p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/30 animate-fade-in-up">
+                <div className="mt-4 p-4 bg-gradient-to-br from-[#7C6BAF]/20 to-[#9B8AC9]/20 rounded-xl border border-[#7C6BAF]/30 animate-fade-in-up">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-sm font-semibold text-purple-400 flex items-center gap-2">
                       <span>🔮</span> AI Analysis
@@ -314,16 +317,23 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
           </div>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        data={{ type: 'card', card }}
+      />
     </div>
   )
 }
 
 function RarityBadge({ rarity }: { rarity: string }) {
   const styles: Record<string, string> = {
-    Legendary: 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold px-4 py-2 rounded-full',
-    Epic: 'bg-purple-500/90 text-white font-semibold px-4 py-2 rounded-full',
+    Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold px-4 py-2 rounded-full',
+    Epic: 'bg-violet-500/90 text-white font-semibold px-4 py-2 rounded-full',
     Rare: 'bg-blue-500/90 text-white font-semibold px-4 py-2 rounded-full',
-    Common: 'bg-gray-500/90 text-white font-semibold px-4 py-2 rounded-full',
+    Common: 'bg-slate-500/90 text-white font-semibold px-4 py-2 rounded-full',
   }
 
   return (
@@ -333,15 +343,15 @@ function RarityBadge({ rarity }: { rarity: string }) {
   )
 }
 
-function StatBox({ label, value, icon, color }: { 
+function StatBox({ label, value, icon, color }: {
   label: string
   value: number
   icon: string
   color: 'red' | 'blue'
 }) {
   const colorStyles = {
-    red: 'from-red-500/20 to-red-600/20 border-red-500/30',
-    blue: 'from-blue-500/20 to-blue-600/20 border-blue-500/30',
+    red: 'from-red-500/15 to-red-600/15 border-red-500/25',
+    blue: 'from-blue-500/15 to-blue-600/15 border-blue-500/25',
   }
   const valueStyles = {
     red: 'text-red-400',

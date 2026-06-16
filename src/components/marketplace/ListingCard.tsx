@@ -22,24 +22,24 @@ interface ListingCardProps {
 }
 
 const rarityGradients: Record<CardRarity, string> = {
-  Common: 'from-gray-600 to-gray-800',
-  Rare: 'from-blue-600 to-blue-900',
-  Epic: 'from-purple-600 to-purple-900',
-  Legendary: 'from-yellow-500 via-orange-500 to-red-600',
+  Common: 'from-slate-500 to-slate-700',
+  Rare: 'from-blue-500 to-indigo-700',
+  Epic: 'from-violet-500 to-purple-800',
+  Legendary: 'from-amber-400 via-orange-400 to-rose-600',
 }
 
 const rarityBorders: Record<CardRarity, string> = {
-  Common: 'border-gray-400',
+  Common: 'border-slate-400',
   Rare: 'border-blue-400 hover:border-blue-300',
-  Epic: 'border-purple-400 hover:border-purple-300',
-  Legendary: 'border-yellow-400 hover:border-yellow-300 animate-legendary-glow',
+  Epic: 'border-violet-400 hover:border-violet-300',
+  Legendary: 'border-amber-400 hover:border-amber-300 animate-legendary-glow',
 }
 
 const rarityBadges: Record<CardRarity, string> = {
-  Common: 'bg-gray-500/90 text-white',
+  Common: 'bg-slate-500/90 text-white',
   Rare: 'bg-blue-500/90 text-white',
-  Epic: 'bg-purple-500/90 text-white',
-  Legendary: 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold',
+  Epic: 'bg-violet-500/90 text-white',
+  Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
 }
 
 export function ListingCard({ listing, card, onBuy, onClick, isLoading }: ListingCardProps) {
@@ -76,13 +76,11 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
-      {/* Card Background */}
       <div className={cn(
         "absolute inset-0 rounded-xl overflow-hidden",
         "bg-gradient-to-br",
         rarityGradients[rarity]
       )}>
-        {/* Hover Glow Effect */}
         <div className={cn(
           "absolute inset-0 opacity-0 transition-opacity duration-300",
           isHovered && "opacity-100",
@@ -91,7 +89,6 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
           rarity === 'Legendary' && "bg-yellow-500/10"
         )} />
 
-        {/* Legendary Particles */}
         {rarity === 'Legendary' && (
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(6)].map((_, i) => (
@@ -102,61 +99,68 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
                   left: `${15 + i * 15}%`,
                   top: `${20 + (i % 3) * 25}%`,
                   animationDelay: `${i * 0.3}s`,
-                  boxShadow: '0 0 6px 2px rgba(255, 215, 0, 0.8)',
+                  boxShadow: '0 0 6px 2px rgba(201, 162, 39, 0.8)',
                 }}
               />
             ))}
           </div>
         )}
 
-        {/* Top Section - Name & Rarity */}
-        <div className="absolute top-0 left-0 right-0 p-3 bg-gradient-to-b from-black/60 to-transparent">
-          <div className="flex items-start justify-between">
-            <h3 className="text-white font-bold text-sm leading-tight line-clamp-1 drop-shadow-lg max-w-[70%]">
+        {/* Top Section - Name & Rarity & Price */}
+        <div className="absolute top-0 left-0 right-0 p-2 sm:p-3 bg-gradient-to-b from-black/70 to-transparent">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-white font-bold text-xs sm:text-sm leading-tight line-clamp-1 drop-shadow-lg flex-1">
               {cardName}
             </h3>
-            <span className={cn(
-              "text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide",
-              rarityBadges[rarity]
-            )}>
-              {rarity}
-            </span>
+            <div className="flex flex-col items-end gap-1">
+              <span className={cn(
+                "text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full font-semibold uppercase",
+                rarityBadges[rarity]
+              )}>
+                {rarity}
+              </span>
+              <div className="bg-black/70 backdrop-blur-sm rounded px-1.5 sm:px-2 py-0.5 border border-[#C9A227]/30">
+                <p className="text-[#C9A227] font-bold text-[10px] sm:text-xs">
+                  {formatEther(listing.price)} MNT
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Center Section - Card Image */}
-        <div className="absolute top-16 left-3 right-3 bottom-24 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
+        <div className="absolute top-14 sm:top-16 left-2 sm:left-3 right-2 sm:right-3 bottom-24 sm:bottom-28 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
           {card?.imageUrl ? (
             <img src={card.imageUrl} alt={cardName} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-7xl filter drop-shadow-2xl animate-card-float">
+              <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl filter drop-shadow-2xl animate-card-float">
                 {getCardEmoji(card?.type || CardTypeEnum.Attack)}
               </span>
             </div>
           )}
         </div>
 
-        {/* Bottom Section - Stats */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1 bg-red-500/80 px-2 py-1 rounded text-xs font-bold text-white">
+        {/* Bottom Section - Stats & Info */}
+        <div className="absolute bottom-10 sm:bottom-12 left-0 right-0 p-2 sm:p-3 bg-gradient-to-t from-black/80 to-transparent">
+          {/* Attack & Defense */}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 bg-red-500/80 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-xs font-bold text-white">
               <span>⚔️</span>
               <span>{attack}</span>
             </div>
-            <div className="flex items-center gap-1 bg-blue-500/80 px-2 py-1 rounded text-xs font-bold text-white">
+            <div className="flex items-center gap-1 bg-blue-500/80 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[9px] sm:text-xs font-bold text-white">
               <span>🛡️</span>
               <span>{defense}</span>
             </div>
           </div>
           {ability && (
-            <p className="text-[10px] text-white/70 italic line-clamp-2 leading-relaxed">
+            <p className="text-[9px] sm:text-[10px] text-white/70 italic line-clamp-2 leading-relaxed mt-1">
               {ability}
             </p>
           )}
         </div>
 
-        {/* Rarity Border */}
         <div className={cn(
           "absolute inset-0 rounded-xl border-2 pointer-events-none transition-all duration-300",
           rarityBorders[rarity],
@@ -164,26 +168,14 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
         )} />
       </div>
 
-      {/* Price Tag Overlay */}
-      <div className="absolute bottom-16 left-3 right-3">
-        <div className="bg-black/80 backdrop-blur-sm rounded-lg p-2 border border-gold/30">
-          <p className="text-gold font-bold text-center text-lg">
-            {formatEther(listing.price)} MNT
-          </p>
-          <p className="text-gray-400 text-[10px] text-center">
-            Seller: {formatAddress(listing.seller)}
-          </p>
-        </div>
-      </div>
-
       {/* Buy Button */}
-      <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/90 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2 bg-gradient-to-t from-black/95 to-transparent">
         <button
           onClick={handleBuyClick}
           disabled={isLoading || isBuying}
           className={cn(
-            "w-full py-2 rounded-lg font-bold text-sm transition-all",
-            "bg-gold hover:bg-gold-light text-black",
+            "w-full py-1.5 sm:py-2 rounded-lg font-bold text-[10px] sm:text-sm transition-all",
+            "bg-[#C9A227] hover:bg-[#D4B445] text-black",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             isBuying && "animate-pulse"
           )}

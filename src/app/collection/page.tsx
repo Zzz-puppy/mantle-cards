@@ -163,22 +163,22 @@ export default function Collection() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-purple-950/20 to-gray-950">
+    <div className="min-h-screen bg-gradient-to-b from-[#12111a] via-[#1a1530]/30 to-[#12111a]">
       <div className="container mx-auto px-4 py-8 space-y-8">
         {/* Collection Header */}
         <CollectionHeader totalCards={mockCards.length} cards={mockCards} />
 
         {/* Controls Bar */}
         <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between
-                        bg-black/30 rounded-xl p-4 border border-white/5">
+                        bg-[#1a1625]/60 rounded-xl p-4 border border-white/5">
           {/* Filters */}
           <div className="flex flex-wrap gap-3 items-center">
             {/* Rarity Filter */}
             <select
               value={filterRarity}
               onChange={(e) => setFilterRarity(e.target.value as FilterRarity)}
-              className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                         focus:outline-none focus:border-gold transition-colors cursor-pointer"
+              className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                         focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
             >
               <option value="All">All Rarities</option>
               <option value={CardRarity.Common}>Common</option>
@@ -196,8 +196,8 @@ export default function Collection() {
                 max="100"
                 value={minAttack}
                 onChange={(e) => setMinAttack(Number(e.target.value))}
-                className="w-16 bg-gray-800/80 text-white text-sm px-2 py-2 rounded-lg 
-                           border border-white/10 focus:outline-none focus:border-gold transition-colors"
+                className="w-16 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
+                           border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
               />
             </div>
 
@@ -210,8 +210,8 @@ export default function Collection() {
                 max="100"
                 value={minDefense}
                 onChange={(e) => setMinDefense(Number(e.target.value))}
-                className="w-16 bg-gray-800/80 text-white text-sm px-2 py-2 rounded-lg 
-                           border border-white/10 focus:outline-none focus:border-gold transition-colors"
+                className="w-16 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
+                           border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
               />
             </div>
 
@@ -223,7 +223,7 @@ export default function Collection() {
                   setMinAttack(0)
                   setMinDefense(0)
                 }}
-                className="text-gold text-sm hover:text-gold-light transition-colors"
+                className="text-[#C9A227] text-sm hover:text-[#E5D078] transition-colors"
               >
                 Clear Filters
               </button>
@@ -236,8 +236,8 @@ export default function Collection() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                         focus:outline-none focus:border-gold transition-colors cursor-pointer"
+              className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                         focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -249,8 +249,8 @@ export default function Collection() {
             {/* Compare Button */}
             <button
               onClick={() => setIsCompareOpen(true)}
-              className="bg-purple-600/80 hover:bg-purple-500 text-white text-sm font-medium
-                         px-4 py-2 rounded-lg border border-purple-400/30 transition-all
+              className="bg-[#7C6BAF]/80 hover:bg-[#7C6BAF] text-white text-sm font-medium
+                         px-4 py-2 rounded-lg border border-[#7C6BAF]/30 transition-all
                          flex items-center gap-2"
             >
               <span>⚖️</span> Compare
@@ -294,7 +294,7 @@ export default function Collection() {
                   setMinAttack(0)
                   setMinDefense(0)
                 }}
-                className="bg-gold hover:bg-gold-light text-black font-bold
+                className="bg-[#C9A227] hover:bg-[#D4B445] text-black font-bold
                            px-6 py-3 rounded-xl transition-all"
               >
                 Clear All Filters

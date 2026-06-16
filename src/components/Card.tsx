@@ -15,24 +15,24 @@ interface CardProps {
 }
 
 const rarityGradients: Record<RarityType, string> = {
-  Common: 'from-gray-600 to-gray-800',
-  Rare: 'from-blue-600 to-blue-900',
-  Epic: 'from-purple-600 to-purple-900',
-  Legendary: 'from-yellow-500 via-orange-500 to-red-600',
+  Common: 'from-slate-500 to-slate-700',
+  Rare: 'from-blue-500 to-indigo-700',
+  Epic: 'from-violet-500 to-purple-800',
+  Legendary: 'from-amber-400 via-orange-400 to-rose-600',
 }
 
 const rarityBorders: Record<RarityType, string> = {
-  Common: 'border-gray-400 hover:border-gray-300',
-  Rare: 'border-blue-400 hover:border-blue-300 hover:shadow-blue-500/50',
-  Epic: 'border-purple-400 hover:border-purple-300 hover:shadow-purple-500/50',
-  Legendary: 'border-yellow-400 hover:border-yellow-300 hover:shadow-yellow-500/50 animate-legendary-glow',
+  Common: 'border-slate-400 hover:border-slate-300',
+  Rare: 'border-blue-400 hover:border-blue-300 hover:shadow-blue-500/40',
+  Epic: 'border-violet-400 hover:border-violet-300 hover:shadow-violet-500/40',
+  Legendary: 'border-amber-400 hover:border-amber-300 hover:shadow-amber-500/40 animate-legendary-glow',
 }
 
 const rarityBadges: Record<RarityType, string> = {
-  Common: 'bg-gray-500/90 text-white',
+  Common: 'bg-slate-500/90 text-white',
   Rare: 'bg-blue-500/90 text-white',
-  Epic: 'bg-purple-500/90 text-white',
-  Legendary: 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold',
+  Epic: 'bg-violet-500/90 text-white',
+  Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
 }
 
 export function Card({ 
@@ -198,7 +198,7 @@ export function Card({
 
       {/* Selection Indicator */}
       {isSelected && (
-        <div className="absolute inset-0 rounded-xl border-4 border-gold bg-gold/10 pointer-events-none animate-pulse" />
+        <div className="absolute inset-0 rounded-xl border-4 border-[#C9A227] bg-[#C9A227]/10 pointer-events-none animate-pulse" />
       )}
     </div>
   )
@@ -210,13 +210,13 @@ export function Card({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative w-[280px] h-[400px] shrink-0",
+        "relative w-full aspect-[7/10] shrink-0",
         "transform transition-all duration-300 ease-out",
         "hover:scale-105 hover:z-10",
         isFlipping && "animate-card-flip",
         isHovered && !disabled && "translateY-[-8px]",
         disabled && "opacity-50 cursor-not-allowed",
-        isSelected && "ring-4 ring-gold ring-offset-2 ring-offset-background"
+        isSelected && "ring-4 ring-[#C9A227] ring-offset-2 ring-offset-[#12111a]"
       )}
       style={{
         boxShadow: isHovered && !disabled ? getHoverShadow(card.rarity as RarityType) : undefined,
@@ -239,10 +239,10 @@ function getCardEmoji(type: string): string {
 
 function getHoverShadow(rarity: RarityType): string {
   const shadows: Record<RarityType, string> = {
-    Common: '0 10px 40px rgba(0,0,0,0.5)',
-    Rare: '0 10px 40px rgba(59,130,246,0.4)',
-    Epic: '0 10px 40px rgba(139,92,246,0.5)',
-    Legendary: '0 10px 50px rgba(255,215,0,0.6), 0 0 30px rgba(255,165,0,0.3)',
+    Common: '0 8px 32px rgba(0,0,0,0.4)',
+    Rare: '0 8px 32px rgba(59,130,246,0.3)',
+    Epic: '0 8px 32px rgba(139,92,246,0.35)',
+    Legendary: '0 8px 40px rgba(201,162,39,0.45), 0 0 20px rgba(201,162,39,0.2)',
   }
   return shadows[rarity]
 }

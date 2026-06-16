@@ -1,36 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  /* Mantle Branding Colors */
-  --color-gold: #FFD700;
-  --color-gold-dark: #B8860B;
-  --color-gold-light: #FFED4A;
-  
-  --color-purple: #8B5CF6;
-  --color-purple-dark: #6D28D9;
-  --color-purple-light: #A78BFA;
-  
-  --color-blue: #3B82F6;
-  --color-blue-dark: #1D4ED8;
-  --color-blue-light: #60A5FA;
-  
-  --color-mantle-primary: #FFD700;
-  --color-mantle-secondary: #8B5CF6;
-  --color-mantle-accent: #3B82F6;
-  
-  /* Card Game Theme Colors */
-  --color-card-bg: #1a1a2e;
-  --color-card-border: #16213e;
-  --color-card-highlight: #0f3460;
-  
+  /* Mantle Branding Colors - Softer Palette */
+  --color-gold: #C9A227;
+  --color-gold-dark: #9A7B1C;
+  --color-gold-light: #E5D078;
+
+  --color-purple: #7C6BAF;
+  --color-purple-dark: #5D4E8C;
+  --color-purple-light: #A99BC9;
+
+  --color-blue: #5B8FD9;
+  --color-blue-dark: #3A6BAD;
+  --color-blue-light: #8BB3E8;
+
+  --color-mantle-primary: #C9A227;
+  --color-mantle-secondary: #7C6BAF;
+  --color-mantle-accent: #5B8FD9;
+
+  /* Card Game Theme Colors - Muted & Elegant */
+  --color-card-bg: #1a1625;
+  --color-card-border: #2d2640;
+  --color-card-highlight: #3d3555;
+
   /* Custom Fonts */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 :root {
-  --background: #0a0a0f;
-  --foreground: #ededed;
+  --background: #12111a;
+  --foreground: #d4d0e0;
 }
 
 body {
@@ -77,18 +77,18 @@ body {
 /* Legendary Glow Animation */
 @keyframes legendary-glow {
   0%, 100% {
-    box-shadow: 
-      0 0 5px rgba(255, 215, 0, 0.5),
-      0 0 10px rgba(255, 215, 0, 0.3),
-      0 0 20px rgba(255, 215, 0, 0.2);
-    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow:
+      0 0 5px rgba(201, 162, 39, 0.4),
+      0 0 10px rgba(201, 162, 39, 0.2),
+      0 0 15px rgba(201, 162, 39, 0.15);
+    border-color: rgba(201, 162, 39, 0.5);
   }
   50% {
-    box-shadow: 
-      0 0 10px rgba(255, 215, 0, 0.8),
-      0 0 20px rgba(255, 215, 0, 0.5),
-      0 0 40px rgba(255, 215, 0, 0.3);
-    border-color: rgba(255, 215, 0, 1);
+    box-shadow:
+      0 0 8px rgba(201, 162, 39, 0.6),
+      0 0 15px rgba(201, 162, 39, 0.35),
+      0 0 25px rgba(201, 162, 39, 0.2);
+    border-color: rgba(201, 162, 39, 0.8);
   }
 }
 
@@ -302,22 +302,22 @@ body {
 
 /* Rarity Glow Effects */
 .glow-legendary {
-  box-shadow: 
-    0 0 15px rgba(255, 215, 0, 0.5),
-    0 0 30px rgba(255, 215, 0, 0.3),
-    0 0 45px rgba(255, 215, 0, 0.2);
+  box-shadow:
+    0 0 12px rgba(201, 162, 39, 0.4),
+    0 0 24px rgba(201, 162, 39, 0.25),
+    0 0 36px rgba(201, 162, 39, 0.15);
 }
 
 .glow-epic {
-  box-shadow: 
-    0 0 10px rgba(139, 92, 246, 0.5),
-    0 0 20px rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 0 8px rgba(124, 107, 175, 0.4),
+    0 0 16px rgba(124, 107, 175, 0.25);
 }
 
 .glow-rare {
-  box-shadow: 
-    0 0 8px rgba(59, 130, 246, 0.4),
-    0 0 16px rgba(59, 130, 246, 0.2);
+  box-shadow:
+    0 0 6px rgba(91, 143, 217, 0.35),
+    0 0 12px rgba(91, 143, 217, 0.2);
 }
 
 /* Card Hover Lift Effect */

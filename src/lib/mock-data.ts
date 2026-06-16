@@ -3,14 +3,12 @@ import type { WalletPortfolio } from './mantle-data'
 import { generateCardAttributes, generateCardImageURL } from './card-generator'
 
 // Mock mode toggle
-let _useMockData = true
-
 export function setMockMode(enabled: boolean): void {
-  _useMockData = enabled
+  // No-op in test environment
 }
 
 export function isMockMode(): boolean {
-  return _useMockData
+  return true
 }
 
 // Sample wallet portfolios for testing

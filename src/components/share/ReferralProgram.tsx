@@ -57,6 +57,12 @@ export function ReferralProgram({ address, className = '' }: ReferralProgramProp
         '_blank',
         'width=550,height=420'
       )
+    } else if (platform === 'native' && navigator.share) {
+      navigator.share({
+        title: 'AI Trading Card Game',
+        text: 'Join me in the AI Trading Card Game on Mantle Network! Use my referral link to get started:',
+        url: referralLink,
+      }).catch(() => {})
     }
   }, [referralLink])
 

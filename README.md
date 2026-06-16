@@ -27,13 +27,15 @@ We believe that every DeFi trader has a unique story written on-chain. MantleCar
 - **🎴 AI-Generated Cards** - Cards are dynamically generated based on your wallet's trading patterns
 - **⚔️ Battle System** - Strategic turn-based card battles with multiple difficulty levels
 - **🤖 AI Opponents** - Six unique AI profiles that adapt to your trading style
-- **💎 Rarity System** - Four tiers: Common, Rare, Epic, Legendary
+- **💎 Rarity System** - Four tiers: Common, Rare, Epic, Legendary with visual effects
 - **🏆 Leaderboard** - Compete with other traders for top rankings
-- **🛒 Marketplace** - Buy, sell, and trade cards with other players
+- **🛒 Marketplace** - Buy, sell, and trade cards with other players (with detailed card preview modal)
 - **👥 Agent System** - Register as an agent and showcase your portfolio
+- **📊 Card Analysis** - AI-powered card analysis with battle predictions and team building
+- **📤 Social Sharing** - Share cards and referral program integration
 
 ### 🔐 Web3 Features
-- **Wallet Integration** - Seamless connection via WalletConnect
+- **Wallet Integration** - Seamless connection via WalletConnect and MetaMask
 - **Smart Contracts** - ERC-8004 compliant token standards
 - **Mantle Network** - Built on Mantle for fast, low-cost transactions
 - **On-Chain Data** - Real-time portfolio analysis from chain data
@@ -41,8 +43,10 @@ We believe that every DeFi trader has a unique story written on-chain. MantleCar
 ### 🎨 User Experience
 - **Responsive Design** - Works on desktop and mobile
 - **Smooth Animations** - Battle animations powered by Framer Motion
-- **Dark Theme** - Modern, eye-friendly UI
+- **Modern Dark Theme** - Elegant, eye-friendly UI with soft color palette
 - **Real-Time Updates** - Live leaderboard and card updates
+- **Interactive Modals** - Detailed card views with scrollable content
+- **Custom Logo** - Brand identity with animated card logo
 
 ## 🛠 Tech Stack
 
@@ -131,40 +135,93 @@ mantle-cards/
 │   │   ├── leaderboard/       # Global rankings
 │   │   ├── market/            # Card marketplace
 │   │   ├── profile/           # User profile & agents
+│   │   ├── globals.css        # Global styles & theme colors
 │   │   ├── layout.tsx         # Root layout
 │   │   └── page.tsx           # Home page
 │   ├── components/            # React components
 │   │   ├── agent/             # Agent-related components
+│   │   │   ├── AgentIdentity.tsx
+│   │   │   ├── AgentRegistration.tsx
+│   │   │   └── AgentShowcase.tsx
 │   │   ├── analyzer/          # AI card analyzer
+│   │   │   ├── BattlePredictor.tsx
+│   │   │   ├── CardAnalyzer.tsx
+│   │   │   └── TeamBuilder.tsx
+│   │   ├── animations/        # Animation components
+│   │   │   └── CardReveal.tsx
 │   │   ├── battle/            # Battle system components
+│   │   │   ├── BattleAnimations.tsx
+│   │   │   ├── BattleArena.tsx
+│   │   │   ├── BattleEffect.tsx
+│   │   │   ├── BattleResult.tsx
+│   │   │   ├── BattleSelection.tsx
+│   │   │   └── CardSlot.tsx
 │   │   ├── leaderboard/       # Leaderboard components
+│   │   │   ├── Leaderboard.tsx
+│   │   │   └── LeaderboardRow.tsx
 │   │   ├── marketplace/       # Marketplace components
+│   │   │   ├── ListingCard.tsx
+│   │   │   ├── ListingDetail.tsx
+│   │   │   ├── MarketplaceGrid.tsx
+│   │   │   ├── PurchaseFlow.tsx
+│   │   │   ├── SellCard.tsx
+│   │   │   └── UserListings.tsx
 │   │   ├── providers/         # Web3 providers
+│   │   │   └── Web3Provider.tsx
 │   │   ├── share/             # Social sharing
-│   │   └── *.tsx              # Shared components
+│   │   │   ├── ReferralProgram.tsx
+│   │   │   ├── ShareButtons.tsx
+│   │   │   ├── ShareCard.tsx
+│   │   │   └── ShareModal.tsx
+│   │   ├── Button.tsx         # Shared button component
+│   │   ├── Card.tsx           # Card display component
+│   │   ├── CardComparison.tsx # Card comparison modal
+│   │   ├── CardDetail.tsx     # Card detail modal
+│   │   ├── CardSkeleton.tsx   # Loading skeleton
+│   │   ├── ClientLayout.tsx   # Client-side layout with navigation
+│   │   ├── CollectionHeader.tsx # Collection stats header
+│   │   ├── Layout.tsx         # Main layout wrapper
+│   │   ├── MintCard.tsx       # Card minting component
+│   │   ├── WalletButton.tsx   # Wallet connection button
+│   │   └── WalletModal.tsx    # Wallet selection modal
+│   ├── contexts/              # React contexts
+│   │   └── WalletContext.tsx  # Wallet state management
 │   ├── contracts/             # Solidity smart contracts
 │   │   ├── AgentIdentity.sol  # Agent registry contract
 │   │   ├── ERC8004.sol        # ERC-8004 compliance
 │   │   ├── MantleCards.sol    # Main card NFT contract
-│   │   └── Marketplace.sol    # Card trading marketplace
+│   │   └ Marketplace.sol      # Card trading marketplace
+│   │   └── index.ts           # Contract exports
 │   ├── hooks/                 # Custom React hooks
+│   │   ├── useBalance.ts      # Balance management
 │   │   ├── useBattle.ts       # Battle logic hook
 │   │   ├── useCards.ts        # Card management hook
 │   │   ├── useGame.ts         # Game state hook
+│   │   ├── useMarketData.ts   # Marketplace data hook
 │   │   ├── useMintCard.ts     # Card minting hook
+│   │   ├── useMockWallet.ts   # Mock wallet for testing
+│   │   ├── useNetwork.ts      # Network status hook
 │   │   └── useWallet.ts       # Wallet connection hook
 │   ├── lib/                   # Utility libraries
-│   │   ├── ai-profiles.ts     # AI opponent definitions
+│   │   ├── agent-data.ts      # Agent data utilities
 │   │   ├── ai-analyzer.ts     # Trading pattern analyzer
+│   │   ├── ai-profiles.ts     # AI opponent definitions
 │   │   ├── battle-engine.ts   # Battle simulation engine
+│   │   ├── battle-recorder.ts # Battle history recorder
 │   │   ├── card-generator.ts  # Card generation logic
 │   │   ├── contracts.ts       # Contract ABIs & addresses
+│   │   ├── leaderboard.ts     # Leaderboard data
 │   │   ├── mantle-data.ts     # Mantle network data
+│   │   ├── market-data.ts     # Marketplace mock data
+│   │   ├── mock-data.ts       # Development mock data
+│   │   ├── social-share.ts    # Social sharing utilities
+│   │   ├── utils.ts           # General utilities
 │   │   └── wagmi-config.ts    # Web3 configuration
 │   └── types/                 # TypeScript type definitions
 │       ├── battle.ts          # Battle-related types
 │       ├── card.ts            # Card NFT types
-│       └── leaderboard.ts      # Leaderboard types
+│       ├── index.ts           # Type exports
+│       └── leaderboard.ts     # Leaderboard types
 ├── docs/                      # Documentation
 │   ├── ARCHITECTURE.md        # System architecture
 │   └── GAME_GUIDE.md          # How to play
@@ -172,7 +229,8 @@ mantle-cards/
 ├── .gitignore                 # Git ignore patterns
 ├── package.json               # Dependencies
 ├── tsconfig.json              # TypeScript config
-└── next.config.ts            # Next.js config
+├── next.config.ts             # Next.js config
+└── README.md                  # This file
 ```
 
 ## 📜 Smart Contracts
@@ -222,10 +280,10 @@ Cards are generated based on your wallet's on-chain data:
 
 | Rarity | Color | Multiplier | Requirements |
 |--------|-------|------------|--------------|
-| 🟢 Common | #10B981 | 1.0x | Any wallet |
-| 🔵 Rare | #3B82F6 | 1.25x | $100+ portfolio |
-| 🟣 Epic | #8B5CF6 | 1.5x | $1,000+ portfolio |
-| 🟡 Legendary | #F59E0B | 1.75x | $10,000+ portfolio |
+| 🟢 Common | Slate Gray | 1.0x | Any wallet |
+| 🔵 Rare | Indigo Blue | 1.25x | $100+ portfolio |
+| 🟣 Epic | Violet Purple | 1.5x | $1,000+ portfolio |
+| 🟡 Legendary | Amber Gold | 1.75x | $10,000+ portfolio |
 
 ### Battle System
 
@@ -275,21 +333,21 @@ Based on analysis, the system:
 - Battle difficulty adapts to your win/loss ratio
 - Cards are weighted to match your style
 
-## 📸 Screenshots
+## 🎨 UI/UX Features
 
-*[Screenshots to be added]*
+### Color Palette
+The application uses a soft, elegant color scheme:
+- **Primary Gold**: `#C9A227` - Accent and highlights
+- **Secondary Purple**: `#7C6BAF` - Secondary actions
+- **Accent Blue**: `#5B8FD9` - Information elements
+- **Background**: `#12111a` - Dark, eye-friendly base
+- **Card Background**: `#1a1625` - Subtle contrast
 
-### Home Page
-![Home Page Placeholder]
-
-### Battle Arena
-![Battle Arena Placeholder]
-
-### Card Collection
-![Card Collection Placeholder]
-
-### Marketplace
-![Marketplace Placeholder]
+### Interactive Elements
+- **Card Hover Effects**: Scale and glow animations
+- **Legendary Glow**: Animated golden particles
+- **Modal Scroll**: Full content visibility with scroll support
+- **Responsive Grid**: Adaptive card layouts for all screen sizes
 
 ## 🤝 Contributing
 

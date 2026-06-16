@@ -121,7 +121,7 @@ export function ShareModal({ isOpen, onClose, data, referralCode }: ShareModalPr
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal Content */}
-      <div className="relative z-10 max-w-2xl w-full bg-gradient-to-br from-gray-900 via-purple-950 to-gray-900 rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-purple-500/20">
+      <div className="relative z-10 max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-gradient-to-br from-[#1a1625] via-[#1f1833] to-[#1a2535] rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-[#7C6BAF]/20">
         {/* Header */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center justify-between">

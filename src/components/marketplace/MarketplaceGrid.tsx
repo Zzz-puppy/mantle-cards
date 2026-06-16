@@ -144,7 +144,7 @@ export function MarketplaceGrid({
     <div className="space-y-6">
       {/* Controls Bar */}
       <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between
-                      bg-black/30 rounded-xl p-4 border border-white/5">
+                      bg-[#1a1625]/60 rounded-xl p-4 border border-white/5">
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
           {/* Search */}
@@ -154,8 +154,8 @@ export function MarketplaceGrid({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search cards..."
-              className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                         focus:outline-none focus:border-gold transition-colors w-40 pl-8"
+              className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                         focus:outline-none focus:border-[#C9A227] transition-colors w-40 pl-8"
             />
             <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
           </div>
@@ -164,8 +164,8 @@ export function MarketplaceGrid({
           <select
             value={filterRarity}
             onChange={(e) => setFilterRarity(e.target.value as FilterRarity)}
-            className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                       focus:outline-none focus:border-gold transition-colors cursor-pointer"
+            className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                       focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
           >
             <option value="All">All Rarities</option>
             <option value="Common">Common</option>
@@ -183,8 +183,8 @@ export function MarketplaceGrid({
               value={priceRange.min}
               onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
               placeholder="Min"
-              className="w-20 bg-gray-800/80 text-white text-sm px-2 py-2 rounded-lg 
-                         border border-white/10 focus:outline-none focus:border-gold transition-colors"
+              className="w-20 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
+                         border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
             />
             <span className="text-gray-400">-</span>
             <input
@@ -194,8 +194,8 @@ export function MarketplaceGrid({
               value={priceRange.max}
               onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
               placeholder="Max"
-              className="w-20 bg-gray-800/80 text-white text-sm px-2 py-2 rounded-lg 
-                         border border-white/10 focus:outline-none focus:border-gold transition-colors"
+              className="w-20 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
+                         border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
             />
             <span className="text-gray-400 text-sm">MNT</span>
           </div>
@@ -206,15 +206,15 @@ export function MarketplaceGrid({
             value={sellerFilter}
             onChange={(e) => setSellerFilter(e.target.value)}
             placeholder="Seller address..."
-            className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                       focus:outline-none focus:border-gold transition-colors w-36"
+            className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                       focus:outline-none focus:border-[#C9A227] transition-colors w-36"
           />
 
           {/* Clear Filters */}
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-gold text-sm hover:text-gold-light transition-colors"
+              className="text-[#C9A227] text-sm hover:text-[#E5D078] transition-colors"
             >
               Clear Filters
             </button>
@@ -227,8 +227,8 @@ export function MarketplaceGrid({
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="bg-gray-800/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                       focus:outline-none focus:border-gold transition-colors cursor-pointer"
+            className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
+                       focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
@@ -271,7 +271,7 @@ export function MarketplaceGrid({
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="bg-gold hover:bg-gold-light text-black font-bold
+              className="bg-[#C9A227] hover:bg-[#D4B445] text-black font-bold
                          px-6 py-3 rounded-xl transition-all"
             >
               Clear All Filters

@@ -12,7 +12,7 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
   const estimatedValue = calculateEstimatedValue(cards)
 
   return (
-    <div className="bg-gradient-to-r from-purple-900/50 via-blue-900/50 to-purple-900/50 
+    <div className="bg-gradient-to-r from-[#1f1833]/60 via-[#1a2540]/60 to-[#1f1833]/60
                     rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         {/* Left Section - Title & Stats */}
@@ -25,7 +25,7 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
           <div className="flex flex-wrap gap-6">
             {/* Total Cards */}
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-gold/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-[#C9A227]/20 flex items-center justify-center">
                 <span className="text-xl">🎴</span>
               </div>
               <div>
@@ -36,7 +36,7 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
 
             {/* Estimated Value */}
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
                 <span className="text-xl">💎</span>
               </div>
               <div>
@@ -47,7 +47,7 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
 
             {/* Unique Cards */}
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-[#7C6BAF]/20 flex items-center justify-center">
                 <span className="text-xl">✨</span>
               </div>
               <div>
@@ -64,33 +64,33 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
         <div className="lg:w-80">
           <h3 className="text-sm font-semibold text-gray-300 mb-3">Rarity Distribution</h3>
           <div className="space-y-2">
-            <RarityBar 
-              rarity="Legendary" 
-              count={rarityCounts.Legendary} 
+            <RarityBar
+              rarity="Legendary"
+              count={rarityCounts.Legendary}
               total={totalCards}
-              color="from-yellow-500 to-orange-500"
-              glow="bg-yellow-500/50"
+              color="from-amber-400 to-orange-400"
+              glow="bg-amber-400/40"
             />
-            <RarityBar 
-              rarity="Epic" 
-              count={rarityCounts.Epic} 
+            <RarityBar
+              rarity="Epic"
+              count={rarityCounts.Epic}
               total={totalCards}
-              color="from-purple-500 to-purple-700"
-              glow="bg-purple-500/50"
+              color="from-violet-500 to-violet-600"
+              glow="bg-violet-500/40"
             />
-            <RarityBar 
-              rarity="Rare" 
-              count={rarityCounts.Rare} 
+            <RarityBar
+              rarity="Rare"
+              count={rarityCounts.Rare}
               total={totalCards}
-              color="from-blue-500 to-blue-700"
-              glow="bg-blue-500/50"
+              color="from-blue-500 to-indigo-600"
+              glow="bg-blue-500/40"
             />
-            <RarityBar 
-              rarity="Common" 
-              count={rarityCounts.Common} 
+            <RarityBar
+              rarity="Common"
+              count={rarityCounts.Common}
               total={totalCards}
-              color="from-gray-500 to-gray-600"
-              glow="bg-gray-500/50"
+              color="from-slate-500 to-slate-600"
+              glow="bg-slate-500/40"
             />
           </div>
 
@@ -171,12 +171,12 @@ function calculateEstimatedValue(cards: CardType[]): number {
 function getRarityBadgeClass(rarity: CardRarity): string {
   switch (rarity) {
     case 'Legendary':
-      return 'bg-gradient-to-r from-yellow-500 to-orange-500 text-black'
+      return 'bg-gradient-to-r from-amber-400 to-orange-400 text-black'
     case 'Epic':
-      return 'bg-purple-500/80 text-white'
+      return 'bg-violet-500/80 text-white'
     case 'Rare':
       return 'bg-blue-500/80 text-white'
     default:
-      return 'bg-gray-500/80 text-white'
+      return 'bg-slate-500/80 text-white'
   }
 }

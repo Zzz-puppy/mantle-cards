@@ -3,13 +3,15 @@
 import { type ReactNode } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { WalletProvider } from '@/contexts/WalletContext'
+import { Web3Provider } from '@/components/providers/Web3Provider'
+import { WalletButton } from '@/components/WalletButton'
 
-interface NavItem {
-  name: string
-  href: string
+interface ClientLayoutProps {
+  children: ReactNode
 }
 
-const navItems: NavItem[] = [
+const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Collection', href: '/collection' },
   { name: 'Battle', href: '/battle' },
@@ -18,7 +20,7 @@ const navItems: NavItem[] = [
   { name: 'Profile', href: '/profile' },
 ]
 
-export function Navigation() {
+function Navigation() {
   const pathname = usePathname()
 
   return (
@@ -29,10 +31,8 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative">
               <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="drop-shadow-lg">
-                {/* Card shape background */}
                 <rect x="4" y="2" width="24" height="32" rx="3" fill="url(#logoGrad1)" stroke="#C9A227" strokeWidth="1.5"/>
                 <rect x="12" y="6" width="24" height="32" rx="3" fill="url(#logoGrad2)" stroke="#8B7EC9" strokeWidth="1.5"/>
-                {/* Center symbol */}
                 <circle cx="24" cy="22" r="8" fill="#1a1625" stroke="#C9A227" strokeWidth="1"/>
                 <text x="24" y="27" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#C9A227">🎴</text>
                 <defs>
@@ -46,7 +46,6 @@ export function Navigation() {
                   </linearGradient>
                 </defs>
               </svg>
-              {/* Glow effect */}
               <div className="absolute inset-0 bg-purple-500/20 rounded-lg blur-md group-hover:bg-purple-500/30 transition-colors" />
             </div>
             <div className="flex flex-col">
@@ -58,43 +57,46 @@ export function Navigation() {
           </Link>
 
           {/* Navigation Links */}
-          <ul className="flex space-x-6">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`
-                    transition-colors text-sm
-                    ${pathname === item.href ? 'text-[#C9A227] font-semibold' : 'hover:text-[#C9A227]'}
-                  `}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center gap-6">
+            <ul className="flex space-x-6">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`
+                      transition-colors text-sm
+                      ${pathname === item.href ? 'text-[#C9A227] font-semibold' : 'hover:text-[#C9A227]'}
+                    `}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <WalletButton />
+          </div>
         </div>
       </nav>
     </header>
   )
 }
 
-interface LayoutProps {
-  children: ReactNode
-}
-
-export function Layout({ children }: LayoutProps) {
+export function ClientLayout({ children }: ClientLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
-      <main className="flex-1">
-        {children}
-      </main>
-      <footer className="bg-[#12111a] text-gray-500 py-6">
-        <div className="container mx-auto px-4 text-center">
-          <p>AI Trading Card Game - Powered by Mantle Network</p>
+    <WalletProvider>
+      <Web3Provider>
+        <div className="min-h-screen flex flex-col">
+          <Navigation />
+          <main className="flex-1">
+            {children}
+          </main>
+          <footer className="bg-[#12111a] text-gray-500 py-6">
+            <div className="container mx-auto px-4 text-center">
+              <p>AI Trading Card Game - Powered by Mantle Network</p>
+            </div>
+          </footer>
         </div>
-      </footer>
-    </div>
+      </Web3Provider>
+    </WalletProvider>
   )
 }

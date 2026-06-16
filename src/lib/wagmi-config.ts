@@ -1,6 +1,6 @@
 import { http, createConfig, createStorage, cookieStorage } from 'wagmi'
 import { mainnet, sepolia } from 'wagmi/chains'
-import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
+import { injected } from 'wagmi/connectors'
 
 // Mantle Mainnet configuration
 export const mantleMainnet = {
@@ -43,29 +43,12 @@ export const mantleSepolia = {
 // Define supported chains
 export const supportedChains = [mantleMainnet, mantleSepolia] as const
 
-// WalletConnect project ID from environment
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || ''
-
 // Create wagmi config
 export const config = createConfig({
   chains: supportedChains,
   connectors: [
     injected({
       shimDisconnect: true,
-    }),
-    walletConnect({
-      projectId: projectId || 'placeholder-project-id',
-      metadata: {
-        name: 'AI Trading Card Game',
-        description: 'An AI-powered trading card game on Mantle Network',
-        url: typeof window !== 'undefined' ? window.location.origin : 'https://example.com',
-        icons: ['https://avatars.githubusercontent.com/u/37784886'],
-      },
-      showQrModal: false, // We'll use our custom modal
-    }),
-    coinbaseWallet({
-      appName: 'AI Trading Card Game',
-      appLogoUrl: 'https://avatars.githubusercontent.com/u/37784886',
     }),
   ],
   transports: {
