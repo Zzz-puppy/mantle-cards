@@ -1,7 +1,6 @@
 'use client'
 
-import type { Card as CardType } from '@/types'
-import { CardRarity, CardType as CardTypeEnum } from '@/types'
+import type { Card, CardRarity } from '@/types/card'
 import { cn, formatAddress, formatEther } from '@/lib/utils'
 
 interface ListingDetailProps {
@@ -14,7 +13,7 @@ interface ListingDetailProps {
     createdAt: number
     isActive: boolean
   }
-  card?: CardType
+  card?: Card
   isOpen: boolean
   onClose: () => void
   onBuy?: () => void
@@ -22,36 +21,36 @@ interface ListingDetailProps {
 }
 
 const rarityGradients: Record<CardRarity, string> = {
-  Common: 'from-slate-500 to-slate-700',
-  Rare: 'from-blue-500 to-indigo-700',
-  Epic: 'from-violet-500 to-purple-800',
-  Legendary: 'from-amber-400 via-orange-400 to-rose-600',
+  common: 'from-slate-500 to-slate-700',
+  rare: 'from-blue-500 to-indigo-700',
+  epic: 'from-violet-500 to-purple-800',
+  legendary: 'from-amber-400 via-orange-400 to-rose-600',
 }
 
 const rarityBorders: Record<CardRarity, string> = {
-  Common: 'border-slate-400',
-  Rare: 'border-blue-400 hover:border-blue-300',
-  Epic: 'border-violet-400 hover:border-violet-300',
-  Legendary: 'border-amber-400 hover:border-amber-300 animate-legendary-glow',
+  common: 'border-slate-400',
+  rare: 'border-blue-400 hover:border-blue-300',
+  epic: 'border-violet-400 hover:border-violet-300',
+  legendary: 'border-amber-400 hover:border-amber-300 animate-legendary-glow',
 }
 
-function RarityBadge({ rarity }: { rarity: string }) {
-  const styles: Record<string, string> = {
-    Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold px-4 py-2 rounded-full',
-    Epic: 'bg-violet-500/90 text-white font-semibold px-4 py-2 rounded-full',
-    Rare: 'bg-blue-500/90 text-white font-semibold px-4 py-2 rounded-full',
-    Common: 'bg-slate-500/90 text-white font-semibold px-4 py-2 rounded-full',
+function RarityBadge({ rarity }: { rarity: CardRarity }) {
+  const styles: Record<CardRarity, string> = {
+    legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold px-4 py-2 rounded-full',
+    epic: 'bg-violet-500/90 text-white font-semibold px-4 py-2 rounded-full',
+    rare: 'bg-blue-500/90 text-white font-semibold px-4 py-2 rounded-full',
+    common: 'bg-slate-500/90 text-white font-semibold px-4 py-2 rounded-full',
   }
 
   return (
-    <span className={styles[rarity] || styles.Common}>
-      {rarity}
+    <span className={styles[rarity] || styles.common}>
+      {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
     </span>
   )
 }
 
 export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }: ListingDetailProps) {
-  const rarity = card?.rarity || CardRarity.Common
+  const rarity = card?.rarity || 'common'
   const cardName = card?.name || `Card #${listing.tokenId}`
   const attack = card?.attack || 0
   const defense = card?.defense || 0
@@ -86,7 +85,7 @@ export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }:
                 rarityGradients[rarity]
               )}>
                 {/* Legendary particles */}
-                {rarity === 'Legendary' && (
+                {rarity === 'legendary' && (
                   <div className="absolute inset-0 overflow-hidden">
                     {[...Array(6)].map((_, i) => (
                       <div

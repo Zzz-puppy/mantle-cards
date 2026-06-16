@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import type { Card } from '@/types'
-import { CardRarity, CardType as CardTypeEnum } from '@/types'
+import type { Card, CardRarity } from '@/types/card'
 import { cn, formatAddress, formatEther } from '@/lib/utils'
 import { FEE_CONSTANTS } from '@/contracts'
 import { useBalance } from '@/hooks/useBalance'
@@ -40,7 +39,7 @@ export function PurchaseFlow({
   const totalPrice = price + marketplaceFee + creatorRoyalty
 
   const hasEnoughBalance = userBalance >= totalPrice
-  const rarity = card?.rarity || CardRarity.Common
+  const rarity = card?.rarity || 'common'
 
   const handleConfirm = async () => {
     setState('processing')
@@ -154,10 +153,10 @@ export function PurchaseFlow({
               <div className={cn(
                 "w-full rounded-xl overflow-hidden",
                 "bg-gradient-to-br",
-                rarity === 'Legendary' && "from-yellow-500 via-orange-500 to-red-600",
-                rarity === 'Epic' && "from-purple-600 to-purple-900",
-                rarity === 'Rare' && "from-blue-600 to-blue-900",
-                rarity === 'Common' && "from-gray-600 to-gray-800"
+                rarity === 'legendary' && "from-yellow-500 via-orange-500 to-red-600",
+                rarity === 'epic' && "from-purple-600 to-purple-900",
+                rarity === 'rare' && "from-blue-600 to-blue-900",
+                rarity === 'common' && "from-gray-600 to-gray-800"
               )} style={{ maxHeight: '400px' }}>
                 <div className="w-full h-full p-3 sm:p-4 flex flex-col">
                   <div className="flex justify-between items-start">
@@ -166,10 +165,10 @@ export function PurchaseFlow({
                     </h3>
                     <span className={cn(
                       "text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full font-semibold uppercase",
-                      rarity === 'Legendary' && "bg-gradient-to-r from-yellow-500 to-orange-500 text-black",
-                      rarity === 'Epic' && "bg-purple-500/90 text-white",
-                      rarity === 'Rare' && "bg-blue-500/90 text-white",
-                      rarity === 'Common' && "bg-gray-500/90 text-white"
+                      rarity === 'legendary' && "bg-gradient-to-r from-yellow-500 to-orange-500 text-black",
+                      rarity === 'epic' && "bg-purple-500/90 text-white",
+                      rarity === 'rare' && "bg-blue-500/90 text-white",
+                      rarity === 'common' && "bg-gray-500/90 text-white"
                     )}>
                       {rarity}
                     </span>
@@ -177,13 +176,13 @@ export function PurchaseFlow({
                   
                   <div className="flex-1 flex items-center justify-center min-h-[120px] sm:min-h-[150px]">
                     <span className="text-5xl sm:text-6xl md:text-7xl filter drop-shadow-2xl">
-                      {getCardEmoji(card?.type || CardTypeEnum.Attack)}
+                      {getCardEmoji(card?.rarity || 'common')}
                     </span>
                   </div>
                   
-                  {card?.ability && (
+                  {card?.specialAbility && (
                     <p className="text-[10px] sm:text-xs text-white/70 italic mb-2 line-clamp-2 px-1">
-                      {card.ability}
+                      {card.specialAbility}
                     </p>
                   )}
                   
@@ -295,12 +294,12 @@ export function PurchaseFlow({
   )
 }
 
-function getCardEmoji(type: CardTypeEnum): string {
-  const emojis: Record<CardTypeEnum, string> = {
-    [CardTypeEnum.Attack]: '⚔️',
-    [CardTypeEnum.Defense]: '🛡️',
-    [CardTypeEnum.Support]: '✨',
-    [CardTypeEnum.Special]: '🌟',
+function getCardEmoji(rarity: CardRarity): string {
+  const emojis: Record<CardRarity, string> = {
+    legendary: '👑',
+    epic: '💎',
+    rare: '⭐',
+    common: '🎴',
   }
-  return emojis[type] || '🎴'
+  return emojis[rarity] || emojis.common
 }

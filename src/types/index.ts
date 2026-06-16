@@ -2,6 +2,8 @@
 export * from './card'
 
 // Game-specific types
+import type { Card } from './card'
+
 export interface GameState {
   playerHealth: number
   opponentHealth: number

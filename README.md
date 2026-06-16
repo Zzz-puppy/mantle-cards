@@ -367,7 +367,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 📞 Contact
 
-- **Team**: MantleCards Hackathon Team
+- **Email**: 2482559491@qq.com
+- **Phone**: 18977870517
 - **Project**: The Turing Test Hackathon 2026
 - **Network**: Mantle
 - **Track**: Consumer Viral DApps

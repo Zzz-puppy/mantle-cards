@@ -1,11 +1,11 @@
 'use client'
 
-import type { Card as CardType, CardRarity as RarityType } from '@/types'
+import type { Card, CardRarity } from '@/types/card'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
 interface CardProps {
-  card: CardType
+  card: Card
   onClick?: () => void
   disabled?: boolean
   showBack?: boolean
@@ -14,25 +14,25 @@ interface CardProps {
   onHover?: (hovered: boolean) => void
 }
 
-const rarityGradients: Record<RarityType, string> = {
-  Common: 'from-slate-500 to-slate-700',
-  Rare: 'from-blue-500 to-indigo-700',
-  Epic: 'from-violet-500 to-purple-800',
-  Legendary: 'from-amber-400 via-orange-400 to-rose-600',
+const rarityGradients: Record<CardRarity, string> = {
+  common: 'from-slate-500 to-slate-700',
+  rare: 'from-blue-500 to-indigo-700',
+  epic: 'from-violet-500 to-purple-800',
+  legendary: 'from-amber-400 via-orange-400 to-rose-600',
 }
 
-const rarityBorders: Record<RarityType, string> = {
-  Common: 'border-slate-400 hover:border-slate-300',
-  Rare: 'border-blue-400 hover:border-blue-300 hover:shadow-blue-500/40',
-  Epic: 'border-violet-400 hover:border-violet-300 hover:shadow-violet-500/40',
-  Legendary: 'border-amber-400 hover:border-amber-300 hover:shadow-amber-500/40 animate-legendary-glow',
+const rarityBorders: Record<CardRarity, string> = {
+  common: 'border-slate-400 hover:border-slate-300',
+  rare: 'border-blue-400 hover:border-blue-300 hover:shadow-blue-500/40',
+  epic: 'border-violet-400 hover:border-violet-300 hover:shadow-violet-500/40',
+  legendary: 'border-amber-400 hover:border-amber-300 hover:shadow-amber-500/40 animate-legendary-glow',
 }
 
-const rarityBadges: Record<RarityType, string> = {
-  Common: 'bg-slate-500/90 text-white',
-  Rare: 'bg-blue-500/90 text-white',
-  Epic: 'bg-violet-500/90 text-white',
-  Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
+const rarityBadges: Record<CardRarity, string> = {
+  common: 'bg-slate-500/90 text-white',
+  rare: 'bg-blue-500/90 text-white',
+  epic: 'bg-violet-500/90 text-white',
+  legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
 }
 
 export function Card({ 
@@ -82,22 +82,22 @@ export function Card({
     <div className={cn(
       "absolute inset-0 rounded-xl overflow-hidden",
       "bg-gradient-to-br",
-      rarityGradients[card.rarity as RarityType]
+      rarityGradients[card.rarity]
     )}>
       {/* Card Glow Effect */}
       <div className={cn(
         "absolute inset-0 opacity-0 transition-opacity duration-300",
         isHovered && "opacity-100",
         {
-          "Common": "",
-          "Rare": "bg-blue-500/10",
-          "Epic": "bg-purple-500/10",
-          "Legendary": "bg-yellow-500/10",
-        }[card.rarity as RarityType]
+          common: "",
+          rare: "bg-blue-500/10",
+          epic: "bg-purple-500/10",
+          legendary: "bg-yellow-500/10",
+        }[card.rarity]
       )} />
 
       {/* Legendary animated particles */}
-      {card.rarity === 'Legendary' && (
+      {card.rarity === 'legendary' && (
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(6)].map((_, i) => (
             <div
@@ -115,7 +115,7 @@ export function Card({
       )}
 
       {/* Epic animated gradient */}
-      {card.rarity === 'Epic' && (
+      {card.rarity === 'epic' && (
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer" />
       )}
 
@@ -127,7 +127,7 @@ export function Card({
           </h3>
           <span className={cn(
             "text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide",
-            rarityBadges[card.rarity as RarityType]
+            rarityBadges[card.rarity]
           )}>
             {card.rarity}
           </span>
@@ -136,9 +136,9 @@ export function Card({
 
       {/* Center Section - Card Image/Illustration */}
       <div className="absolute top-16 left-3 right-3 bottom-24 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
-        {card.imageUrl ? (
+        {card.image ? (
           <img 
-            src={card.imageUrl} 
+            src={card.image} 
             alt={card.name}
             className="w-full h-full object-cover"
           />
@@ -146,19 +146,14 @@ export function Card({
           <div className="w-full h-full flex items-center justify-center">
             <div className="relative">
               <span className="text-7xl filter drop-shadow-2xl animate-card-float">
-                {getCardEmoji(card.type)}
+                {getCardEmoji(card.rarity)}
               </span>
-              {card.rarity === 'Legendary' && (
+              {card.rarity === 'legendary' && (
                 <div className="absolute -inset-4 bg-gradient-to-r from-yellow-500/20 via-orange-500/20 to-red-500/20 rounded-full blur-xl animate-pulse" />
               )}
             </div>
           </div>
         )}
-        
-        {/* Card Type Badge */}
-        <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-xs text-white/80">
-          {card.type}
-        </div>
       </div>
 
       {/* Bottom Section - Stats & Info */}
@@ -176,15 +171,15 @@ export function Card({
         </div>
 
         {/* Special Ability */}
-        {card.ability && (
+        {card.specialAbility && (
           <p className="text-[10px] text-white/70 italic line-clamp-2 leading-relaxed">
-            {card.ability}
+            {card.specialAbility}
           </p>
         )}
 
         {/* Card ID */}
         <div className="flex items-center justify-between text-[9px] text-white/50">
-          <span>#{card.tokenId.toString()}</span>
+          <span>#{card.id.toString()}</span>
           <span>Ed. 1</span>
         </div>
       </div>
@@ -227,22 +222,22 @@ export function Card({
   )
 }
 
-function getCardEmoji(type: string): string {
-  const emojis: Record<string, string> = {
-    Attack: '⚔️',
-    Defense: '🛡️',
-    Support: '✨',
-    Special: '🌟',
+function getCardEmoji(rarity: CardRarity): string {
+  const emojis: Record<CardRarity, string> = {
+    legendary: '👑',
+    epic: '💎',
+    rare: '⭐',
+    common: '🎴',
   }
-  return emojis[type] || '🎴'
+  return emojis[rarity] || emojis.common
 }
 
-function getHoverShadow(rarity: RarityType): string {
-  const shadows: Record<RarityType, string> = {
-    Common: '0 8px 32px rgba(0,0,0,0.4)',
-    Rare: '0 8px 32px rgba(59,130,246,0.3)',
-    Epic: '0 8px 32px rgba(139,92,246,0.35)',
-    Legendary: '0 8px 40px rgba(201,162,39,0.45), 0 0 20px rgba(201,162,39,0.2)',
+function getHoverShadow(rarity: CardRarity): string {
+  const shadows: Record<CardRarity, string> = {
+    common: '0 8px 32px rgba(0,0,0,0.4)',
+    rare: '0 8px 32px rgba(59,130,246,0.3)',
+    epic: '0 8px 32px rgba(139,92,246,0.35)',
+    legendary: '0 8px 40px rgba(201,162,39,0.45), 0 0 20px rgba(201,162,39,0.2)',
   }
   return shadows[rarity]
 }

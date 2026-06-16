@@ -1,10 +1,10 @@
 'use client'
 
-import type { Card as CardType, CardRarity } from '@/types'
+import type { Card, CardRarity } from '@/types/card'
 
 interface CollectionHeaderProps {
   totalCards: number
-  cards: CardType[]
+  cards: Card[]
 }
 
 export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
@@ -65,29 +65,29 @@ export function CollectionHeader({ totalCards, cards }: CollectionHeaderProps) {
           <h3 className="text-sm font-semibold text-gray-300 mb-3">Rarity Distribution</h3>
           <div className="space-y-2">
             <RarityBar
-              rarity="Legendary"
-              count={rarityCounts.Legendary}
+              rarity="legendary"
+              count={rarityCounts.legendary}
               total={totalCards}
               color="from-amber-400 to-orange-400"
               glow="bg-amber-400/40"
             />
             <RarityBar
-              rarity="Epic"
-              count={rarityCounts.Epic}
+              rarity="epic"
+              count={rarityCounts.epic}
               total={totalCards}
               color="from-violet-500 to-violet-600"
               glow="bg-violet-500/40"
             />
             <RarityBar
-              rarity="Rare"
-              count={rarityCounts.Rare}
+              rarity="rare"
+              count={rarityCounts.rare}
               total={totalCards}
               color="from-blue-500 to-indigo-600"
               glow="bg-blue-500/40"
             />
             <RarityBar
-              rarity="Common"
-              count={rarityCounts.Common}
+              rarity="common"
+              count={rarityCounts.common}
               total={totalCards}
               color="from-slate-500 to-slate-600"
               glow="bg-slate-500/40"
@@ -148,19 +148,26 @@ function RarityBar({
   )
 }
 
-function getRarityDistribution(cards: CardType[]) {
+function getRarityDistribution(cards: Card[]) {
+  const counts: Record<CardRarity, number> = {
+    legendary: 0,
+    epic: 0,
+    rare: 0,
+    common: 0,
+  }
+  
   return cards.reduce((acc, card) => {
     acc[card.rarity] = (acc[card.rarity] || 0) + 1
     return acc
-  }, {} as Record<string, number>)
+  }, counts)
 }
 
-function calculateEstimatedValue(cards: CardType[]): number {
-  const rarityValues: Record<string, number> = {
-    Legendary: 2.5,
-    Epic: 1.0,
-    Rare: 0.3,
-    Common: 0.05,
+function calculateEstimatedValue(cards: Card[]): number {
+  const rarityValues: Record<CardRarity, number> = {
+    legendary: 2.5,
+    epic: 1.0,
+    rare: 0.3,
+    common: 0.05,
   }
   
   return cards.reduce((total, card) => {
@@ -170,11 +177,11 @@ function calculateEstimatedValue(cards: CardType[]): number {
 
 function getRarityBadgeClass(rarity: CardRarity): string {
   switch (rarity) {
-    case 'Legendary':
+    case 'legendary':
       return 'bg-gradient-to-r from-amber-400 to-orange-400 text-black'
-    case 'Epic':
+    case 'epic':
       return 'bg-violet-500/80 text-white'
-    case 'Rare':
+    case 'rare':
       return 'bg-blue-500/80 text-white'
     default:
       return 'bg-slate-500/80 text-white'

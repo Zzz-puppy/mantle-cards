@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { Card } from '@/types'
 import { predictBattle, type BattlePrediction } from '@/lib/ai-analyzer'
+import { getRarityBgColor, formatRarity } from '@/lib/card-utils'
 
 interface BattlePredictorProps {
   cards: Card[]
@@ -201,13 +202,8 @@ export function BattlePredictor({ cards, opponentCards, onClose }: BattlePredict
                   />
                 </div>
                 <div className="mt-3 text-xs text-center">
-                  <span className={`px-2 py-1 rounded ${
-                    playerCard!.rarity === 'Legendary' ? 'bg-yellow-500/20 text-yellow-400'
-                      : playerCard!.rarity === 'Epic' ? 'bg-purple-500/20 text-purple-400'
-                      : playerCard!.rarity === 'Rare' ? 'bg-blue-500/20 text-blue-400'
-                      : 'bg-gray-500/20 text-gray-400'
-                  }`}>
-                    {playerCard!.rarity}
+                  <span className={`px-2 py-1 rounded ${getRarityBgColor(playerCard!.rarity)} ${playerCard!.rarity === 'legendary' ? 'text-yellow-400' : playerCard!.rarity === 'epic' ? 'text-purple-400' : playerCard!.rarity === 'rare' ? 'text-blue-400' : 'text-gray-400'}`}>
+                    {formatRarity(playerCard!.rarity)}
                   </span>
                 </div>
               </div>
@@ -238,13 +234,8 @@ export function BattlePredictor({ cards, opponentCards, onClose }: BattlePredict
                   />
                 </div>
                 <div className="mt-3 text-xs text-center">
-                  <span className={`px-2 py-1 rounded ${
-                    opponentCard!.rarity === 'Legendary' ? 'bg-yellow-500/20 text-yellow-400'
-                      : opponentCard!.rarity === 'Epic' ? 'bg-purple-500/20 text-purple-400'
-                      : opponentCard!.rarity === 'Rare' ? 'bg-blue-500/20 text-blue-400'
-                      : 'bg-gray-500/20 text-gray-400'
-                  }`}>
-                    {opponentCard!.rarity}
+                  <span className={`px-2 py-1 rounded ${getRarityBgColor(opponentCard!.rarity)} ${opponentCard!.rarity === 'legendary' ? 'text-yellow-400' : opponentCard!.rarity === 'epic' ? 'text-purple-400' : opponentCard!.rarity === 'rare' ? 'text-blue-400' : 'text-gray-400'}`}>
+                    {formatRarity(opponentCard!.rarity)}
                   </span>
                 </div>
               </div>

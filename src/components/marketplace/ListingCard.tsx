@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Card as CardType } from '@/types'
-import { CardRarity, CardType as CardTypeEnum } from '@/types'
+import type { Card, CardRarity } from '@/types/card'
 import { cn, formatAddress, formatEther } from '@/lib/utils'
 
 interface ListingCardProps {
@@ -15,31 +14,31 @@ interface ListingCardProps {
     createdAt: number
     isActive: boolean
   }
-  card?: CardType
+  card?: Card
   onBuy: (listingId: number) => void
   onClick?: () => void
   isLoading?: boolean
 }
 
 const rarityGradients: Record<CardRarity, string> = {
-  Common: 'from-slate-500 to-slate-700',
-  Rare: 'from-blue-500 to-indigo-700',
-  Epic: 'from-violet-500 to-purple-800',
-  Legendary: 'from-amber-400 via-orange-400 to-rose-600',
+  common: 'from-slate-500 to-slate-700',
+  rare: 'from-blue-500 to-indigo-700',
+  epic: 'from-violet-500 to-purple-800',
+  legendary: 'from-amber-400 via-orange-400 to-rose-600',
 }
 
 const rarityBorders: Record<CardRarity, string> = {
-  Common: 'border-slate-400',
-  Rare: 'border-blue-400 hover:border-blue-300',
-  Epic: 'border-violet-400 hover:border-violet-300',
-  Legendary: 'border-amber-400 hover:border-amber-300 animate-legendary-glow',
+  common: 'border-slate-400',
+  rare: 'border-blue-400 hover:border-blue-300',
+  epic: 'border-violet-400 hover:border-violet-300',
+  legendary: 'border-amber-400 hover:border-amber-300 animate-legendary-glow',
 }
 
 const rarityBadges: Record<CardRarity, string> = {
-  Common: 'bg-slate-500/90 text-white',
-  Rare: 'bg-blue-500/90 text-white',
-  Epic: 'bg-violet-500/90 text-white',
-  Legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
+  common: 'bg-slate-500/90 text-white',
+  rare: 'bg-blue-500/90 text-white',
+  epic: 'bg-violet-500/90 text-white',
+  legendary: 'bg-gradient-to-r from-amber-400 to-orange-400 text-black font-bold',
 }
 
 export function ListingCard({ listing, card, onBuy, onClick, isLoading }: ListingCardProps) {
@@ -58,11 +57,11 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
     }
   }
 
-  const rarity = card?.rarity || CardRarity.Common
+  const rarity = card?.rarity || 'common'
   const cardName = card?.name || `Card #${listing.tokenId}`
   const attack = card?.attack || 0
   const defense = card?.defense || 0
-  const ability = card?.ability
+  const ability = card?.specialAbility
 
   return (
     <div
@@ -84,12 +83,12 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
         <div className={cn(
           "absolute inset-0 opacity-0 transition-opacity duration-300",
           isHovered && "opacity-100",
-          rarity === 'Rare' && "bg-blue-500/10",
-          rarity === 'Epic' && "bg-purple-500/10",
-          rarity === 'Legendary' && "bg-yellow-500/10"
+          rarity === 'rare' && "bg-blue-500/10",
+          rarity === 'epic' && "bg-purple-500/10",
+          rarity === 'legendary' && "bg-yellow-500/10"
         )} />
 
-        {rarity === 'Legendary' && (
+        {rarity === 'legendary' && (
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(6)].map((_, i) => (
               <div

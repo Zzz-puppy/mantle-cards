@@ -367,10 +367,11 @@ AI 分析器检查您钱包的：
 
 ## 📞 联系方式
 
-- **团队**：MantleCards 黑客松团队
-- **项目**：The Turing Test Hackathon 2026
-- **网络**：Mantle
-- **赛道**：Consumer Viral DApps
+- **邮箱**: 2482559491@qq.com
+- **电话**: 18977870517
+- **项目**: The Turing Test Hackathon 2026
+- **网络**: Mantle
+- **赛道**: Consumer Viral DApps
 
 ---
 
