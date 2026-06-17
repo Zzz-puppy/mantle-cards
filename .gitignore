@@ -47,6 +47,7 @@ next-env.d.ts
 *.swp
 *.swo
 .walke
+.trae/
 
 # Secrets and sensitive files
 *.log
