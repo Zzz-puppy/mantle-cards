@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Card, CardRarity, CardType } from '@/types'
-import { CardType as CardTypeEnum } from '@/types'
+import type { Card, CardRarity } from '@/types'
 import type { Listing } from './MarketplaceGrid'
 import { cn, formatEther } from '@/lib/utils'
 
@@ -23,7 +22,7 @@ export function UserListings({ listings, cardsMap, onCancelListing, onUpdatePric
         <div className="text-6xl mb-4 opacity-50">📋</div>
         <h3 className="text-xl font-bold text-white mb-2">No Active Listings</h3>
         <p className="text-gray-400">
-          You don't have any cards listed for sale.
+          You don&apos;t have any cards listed for sale.
         </p>
       </div>
     )
@@ -59,7 +58,7 @@ export function UserListings({ listings, cardsMap, onCancelListing, onUpdatePric
               `}>
                 <div className="w-full h-full flex items-center justify-center">
                   <span className="text-2xl">
-                    {getCardEmoji(card?.type as CardTypeEnum)}
+                    {getCardEmoji(card)}
                   </span>
                 </div>
               </div>
@@ -132,26 +131,24 @@ export function UserListings({ listings, cardsMap, onCancelListing, onUpdatePric
 
 export function getRarityGradient(rarity?: CardRarity): string {
   switch (rarity) {
-    case 'Legendary':
+    case 'legendary':
       return 'from-yellow-500 via-orange-500 to-red-600'
-    case 'Epic':
+    case 'epic':
       return 'from-purple-600 to-purple-900'
-    case 'Rare':
+    case 'rare':
       return 'from-blue-600 to-blue-900'
     default:
       return 'from-gray-600 to-gray-800'
   }
 }
 
-export function getCardEmoji(type?: CardType): string {
-  if (!type) return '🎴'
-  const emojis: Record<CardType, string> = {
-    Attack: '⚔️',
-    Defense: '🛡️',
-    Support: '✨',
-    Special: '🌟',
-  }
-  return emojis[type]
+export function getCardEmoji(card?: Card): string {
+  if (!card) return '🎴'
+  // Derive display type from card stats
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
 }
 
 export function formatTimeAgo(timestamp: number): string {
