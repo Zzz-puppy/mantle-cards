@@ -129,12 +129,12 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
 
         {/* Center Section - Card Image */}
         <div className="absolute top-14 sm:top-16 left-2 sm:left-3 right-2 sm:right-3 bottom-24 sm:bottom-28 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
-          {card?.imageUrl ? (
-            <img src={card.imageUrl} alt={cardName} className="w-full h-full object-cover" />
+          {card?.image ? (
+            <img src={card.image} alt={cardName} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl filter drop-shadow-2xl animate-card-float">
-                {getCardEmoji(card?.type || CardTypeEnum.Attack)}
+                {getCardEmoji(card)}
               </span>
             </div>
           )}
@@ -186,12 +186,10 @@ export function ListingCard({ listing, card, onBuy, onClick, isLoading }: Listin
   )
 }
 
-function getCardEmoji(type: CardTypeEnum): string {
-  const emojis: Record<CardTypeEnum, string> = {
-    [CardTypeEnum.Attack]: '⚔️',
-    [CardTypeEnum.Defense]: '🛡️',
-    [CardTypeEnum.Support]: '✨',
-    [CardTypeEnum.Special]: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getCardEmoji(card?: Card): string {
+  if (!card) return '🎴'
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
 }
