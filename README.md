@@ -1,5 +1,12 @@
 # MantleCards - AI-Powered Trading Card Game
 
+> ⚠️ **Development Status Notice**
+> 
+> This project is an entry for The Turing Test Hackathon 2026 and is currently a **local development version**.
+> - Smart contracts (Solidity) are written but **NOT deployed** to Mantle mainnet or testnet
+> - The frontend UI and game logic are fully functional locally using **Mock Data**
+> - Wallet connection UI is integrated but requires contract deployment and RPC configuration to connect to actual networks
+
 <p align="center">
   <img src="https://img.shields.io/badge/Hackathon-The%20Turing%20Test%20Hackathon%202026-8B5CF6?style=for-the-badge" alt="Hackathon Badge" />
   <img src="https://img.shields.io/badge/Track-Consumer%20Viral%20DApps-10B981?style=for-the-badge" alt="Track Badge" />
@@ -73,7 +80,7 @@ We believe that every DeFi trader has a unique story written on-chain. MantleCar
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/mantle-cards.git
+git clone https://github.com/Zzz-puppy/mantle-cards.git
 cd mantle-cards
 
 # Install dependencies
@@ -103,26 +110,6 @@ npm run build
 # Start production server
 npm start
 ```
-
-## ⚙️ Configuration
-
-Create a `.env.local` file in the root directory:
-
-```env
-# WalletConnect Project ID (required for wallet connection)
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
-
-# Optional: Custom Mantle RPC URLs
-NEXT_PUBLIC_MANTLE_RPC_URL=https://rpc.mantle.xyz
-NEXT_PUBLIC_MANTLE_SEPOLIA_RPC_URL=https://rpc.sepolia.mantle.xyz
-```
-
-### Getting WalletConnect Project ID
-
-1. Visit [WalletConnect Cloud](https://cloud.walletconnect.com/)
-2. Create a new project
-3. Copy the Project ID
-4. Paste it in your `.env.local`
 
 ## 📁 Project Structure
 
@@ -270,7 +257,7 @@ Cards are generated based on your wallet's on-chain data:
 
 | Attribute | Source | Effect |
 |-----------|--------|--------|
-| **Rarity** | Portfolio Value | Common < $100, Rare < $1,000, Epic < $10,000, Legendary $10,000+ |
+| **Rarity** | Portfolio Value | Common < \$100, Rare < \$1,000, Epic < \$10,000, Legendary \$10,000+ |
 | **Attack** | MNT Balance | Higher balance = higher attack |
 | **Defense** | ERC-20 Diversity | More token types = higher defense |
 | **Special Ability** | Transaction Patterns | Based on trading behavior |
@@ -281,9 +268,9 @@ Cards are generated based on your wallet's on-chain data:
 | Rarity | Color | Multiplier | Requirements |
 |--------|-------|------------|--------------|
 | 🟢 Common | Slate Gray | 1.0x | Any wallet |
-| 🔵 Rare | Indigo Blue | 1.25x | $100+ portfolio |
-| 🟣 Epic | Violet Purple | 1.5x | $1,000+ portfolio |
-| 🟡 Legendary | Amber Gold | 1.75x | $10,000+ portfolio |
+| 🔵 Rare | Indigo Blue | 1.25x | \$100+ portfolio |
+| 🟣 Epic | Violet Purple | 1.5x | \$1,000+ portfolio |
+| 🟡 Legendary | Amber Gold | 1.75x | \$10,000+ portfolio |
 
 ### Battle System
 
@@ -336,7 +323,6 @@ Based on analysis, the system:
 ## 🎨 UI/UX Features
 
 ### Color Palette
-The application uses a soft, elegant color scheme:
 - **Primary Gold**: `#C9A227` - Accent and highlights
 - **Secondary Purple**: `#7C6BAF` - Secondary actions
 - **Accent Blue**: `#5B8FD9` - Information elements
@@ -349,26 +335,13 @@ The application uses a soft, elegant color scheme:
 - **Modal Scroll**: Full content visibility with scroll support
 - **Responsive Grid**: Adaptive card layouts for all screen sizes
 
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## 📞 Contact
 
 - **Email**: 2482559491@qq.com
-- **Phone**: 18977870517
 - **Project**: The Turing Test Hackathon 2026
 - **Network**: Mantle
 - **Track**: Consumer Viral DApps
@@ -376,7 +349,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 ---
 
 <p align="center">
-  <strong>Built with ❤️ on Mantle Network</strong>
+  Built on Mantle Network
   <br />
-  <sub>Powered by AI • Secured by Blockchain • Designed for Players</sub>
+  Powered by AI • Secured by Blockchain • Designed for Players
 </p>
