@@ -1,5 +1,12 @@
 # MantleCards - AI 驱动的交易卡牌游戏
 
+> ⚠️ **开发状态说明**
+> 
+> 本项目为 The Turing Test Hackathon 2026 参赛作品，目前为**本地开发版本**。
+> - 智能合约已编写完成（Solidity）但**未部署**到 Mantle 主网或测试网
+> - 前端界面和游戏逻辑在本地完整可用，使用**模拟数据（Mock Data）**进行展示
+> - 钱包连接功能已完成 UI 层集成，连接到实际网络需要部署合约并配置 RPC
+
 <p align="center">
   <img src="https://img.shields.io/badge/Hackathon-The%20Turing%20Test%20Hackathon%202026-8B5CF6?style=for-the-badge" alt="黑客松徽章" />
   <img src="https://img.shields.io/badge/Track-Consumer%20Viral%20DApps-10B981?style=for-the-badge" alt="赛道徽章" />
@@ -103,26 +110,6 @@ npm run build
 # 启动生产服务器
 npm start
 ```
-
-## ⚙️ 配置
-
-在根目录创建 `.env.local` 文件：
-
-```env
-# WalletConnect Project ID（钱包连接所需）
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id_here
-
-# 可选：自定义 Mantle RPC URL
-NEXT_PUBLIC_MANTLE_RPC_URL=https://rpc.mantle.xyz
-NEXT_PUBLIC_MANTLE_SEPOLIA_RPC_URL=https://rpc.sepolia.mantle.xyz
-```
-
-### 获取 WalletConnect Project ID
-
-1. 访问 [WalletConnect Cloud](https://cloud.walletconnect.com/)
-2. 创建新项目
-3. 复制 Project ID
-4. 粘贴到您的 `.env.local` 中
 
 ## 📁 项目结构
 
@@ -270,7 +257,7 @@ mantle-cards/
 
 | 属性 | 来源 | 效果 |
 |-----------|--------|--------|
-| **稀有度** | 投资组合价值 | 普通 < $100, 稀有 < $1,000, 史诗 < $10,000, 传说 $10,000+ |
+| **稀有度** | 投资组合价值 | 普通 < \$100, 稀有 < \$1,000, 史诗 < \$10,000, 传说 \$10,000+ |
 | **攻击力** | MNT 余额 | 余额越高 = 攻击力越高 |
 | **防御力** | ERC-20 多样性 | 代币类型越多 = 防御力越高 |
 | **特殊能力** | 交易模式 | 基于交易行为 |
@@ -281,9 +268,9 @@ mantle-cards/
 | 稀有度 | 颜色 | 倍率 | 要求 |
 |--------|-------|------------|--------------|
 | 🟢 普通 | 石板灰 | 1.0x | 任何钱包 |
-| 🔵 稀有 | 靛蓝蓝 | 1.25x | $100+ 投资组合 |
-| 🟣 史诗 | 紫罗兰 | 1.5x | $1,000+ 投资组合 |
-| 🟡 传说 | 琥珀金 | 1.75x | $10,000+ 投资组合 |
+| 🔵 稀有 | 靛蓝蓝 | 1.25x | \$100+ 投资组合 |
+| 🟣 史诗 | 紫罗兰 | 1.5x | \$1,000+ 投资组合 |
+| 🟡 传说 | 琥珀金 | 1.75x | \$10,000+ 投资组合 |
 
 ### 战斗系统
 
@@ -336,7 +323,6 @@ AI 分析器检查您钱包的：
 ## 🎨 UI/UX 特性
 
 ### 配色方案
-应用使用柔和、优雅的配色：
 - **主金色**：`#C9A227` - 强调和高亮
 - **次要紫色**：`#7C6BAF` - 次要操作
 - **强调蓝色**：`#5B8FD9` - 信息元素
@@ -349,26 +335,13 @@ AI 分析器检查您钱包的：
 - **弹窗滚动**：内容完全可见，支持滚动
 - **响应式网格**：适应所有屏幕尺寸的自适应卡牌布局
 
-## 🤝 贡献
-
-我们欢迎贡献！请参阅 [CONTRIBUTING.md](./CONTRIBUTING.md) 了解指南。
-
-### 开发流程
-
-1. Fork 仓库
-2. 创建您的功能分支（`git checkout -b feature/amazing-feature`）
-3. 提交您的更改（`git commit -m 'Add amazing feature'`）
-4. 推送到分支（`git push origin feature/amazing-feature`）
-5. 打开 Pull Request
-
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 参阅 [LICENSE](./LICENSE) 文件了解详情。
+本项目采用 MIT 许可证。
 
 ## 📞 联系方式
 
 - **邮箱**: 2482559491@qq.com
-- **电话**: 18977870517
 - **项目**: The Turing Test Hackathon 2026
 - **网络**: Mantle
 - **赛道**: Consumer Viral DApps
@@ -376,7 +349,7 @@ AI 分析器检查您钱包的：
 ---
 
 <p align="center">
-  <strong>❤️ 在 Mantle Network 上构建</strong>
+  在 Mantle Network 上构建
   <br />
-  <sub>AI 驱动 • 区块链保障 • 为玩家设计</sub>
+  AI 驱动 • 区块链保障 • 为玩家设计
 </p>
