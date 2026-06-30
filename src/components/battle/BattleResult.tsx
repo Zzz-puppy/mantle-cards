@@ -10,7 +10,7 @@ import { ShareModal } from '@/components/share/ShareModal'
 import { generateReferralCode } from '@/lib/social-share'
 
 interface BattleResultProps {
-  result: BattleResult
+  result: BattleResultType
   rewards: BattleRewards
   aiProfile: AIProfile
   agentId?: string
