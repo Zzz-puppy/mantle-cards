@@ -193,6 +193,7 @@ mantle-cards/
 │   │   ├── agent-data.ts      # Agent data utilities
 │   │   ├── ai-analyzer.ts     # Trading pattern analyzer
 │   │   ├── ai-profiles.ts     # AI opponent definitions
+│   │   ├── battle-data.ts     # Battle deck data service
 │   │   ├── battle-engine.ts   # Battle simulation engine
 │   │   ├── battle-recorder.ts # Battle history recorder
 │   │   ├── card-generator.ts  # Card generation logic
@@ -257,7 +258,7 @@ Cards are generated based on your wallet's on-chain data:
 
 | Attribute | Source | Effect |
 |-----------|--------|--------|
-| **Rarity** | Portfolio Value | Common < \$100, Rare < \$1,000, Epic < \$10,000, Legendary \$10,000+ |
+| **Rarity** | Portfolio Value | Common < \\$100, Rare < \\$1,000, Epic < \\$10,000, Legendary \\$10,000+ |
 | **Attack** | MNT Balance | Higher balance = higher attack |
 | **Defense** | ERC-20 Diversity | More token types = higher defense |
 | **Special Ability** | Transaction Patterns | Based on trading behavior |
@@ -268,9 +269,9 @@ Cards are generated based on your wallet's on-chain data:
 | Rarity | Color | Multiplier | Requirements |
 |--------|-------|------------|--------------|
 | 🟢 Common | Slate Gray | 1.0x | Any wallet |
-| 🔵 Rare | Indigo Blue | 1.25x | \$100+ portfolio |
-| 🟣 Epic | Violet Purple | 1.5x | \$1,000+ portfolio |
-| 🟡 Legendary | Amber Gold | 1.75x | \$10,000+ portfolio |
+| 🔵 Rare | Indigo Blue | 1.25x | \\$100+ portfolio |
+| 🟣 Epic | Violet Purple | 1.5x | \\$1,000+ portfolio |
+| 🟡 Legendary | Amber Gold | 1.75x | \\$10,000+ portfolio |
 
 ### Battle System
 
