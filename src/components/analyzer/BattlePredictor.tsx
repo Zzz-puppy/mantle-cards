@@ -184,7 +184,7 @@ export function BattlePredictor({ cards, opponentCards, onClose }: BattlePredict
                   Your Card
                 </h4>
                 <div className="text-center mb-3">
-                  <div className="text-3xl">{getCardEmoji(playerCard!.type)}</div>
+                  <div className="text-3xl">{getCardEmoji(playerCard!)}</div>
                   <div className="text-sm text-white mt-1 truncate">{playerCard!.name}</div>
                 </div>
                 <div className="space-y-2">
@@ -214,7 +214,7 @@ export function BattlePredictor({ cards, opponentCards, onClose }: BattlePredict
                   Opponent Card
                 </h4>
                 <div className="text-center mb-3">
-                  <div className="text-3xl">{getCardEmoji(opponentCard!.type)}</div>
+                  <div className="text-3xl">{getCardEmoji(opponentCard!)}</div>
                   <div className="text-sm text-white mt-1 truncate">{opponentCard!.name}</div>
                 </div>
                 <div className="space-y-2">
@@ -369,7 +369,7 @@ function CardSelector({
         onClick={() => onSelect(null as any)}
         className={`w-full p-4 rounded-xl bg-gradient-to-br ${borderColors[color]} bg-black/30 border-2 transition-all hover:scale-105`}
       >
-        <div className="text-4xl mb-2">{getCardEmoji(selectedCard.type)}</div>
+        <div className="text-4xl mb-2">{getCardEmoji(selectedCard)}</div>
         <div className="text-sm text-white truncate">{selectedCard.name}</div>
         <div className="flex gap-2 mt-2 justify-center">
           <span className="text-xs px-2 py-1 rounded bg-red-500/80 text-white">{selectedCard.attack}</span>
@@ -388,7 +388,7 @@ function CardSelector({
           onClick={() => onSelect(card)}
           className={`p-3 rounded-xl border ${borderColors[color]} bg-black/30 hover:bg-black/50 transition-all`}
         >
-          <div className="text-2xl mb-1">{getCardEmoji(card.type)}</div>
+          <div className="text-2xl mb-1">{getCardEmoji(card)}</div>
           <div className="text-xs text-white truncate">{card.name}</div>
           <div className="flex gap-1 mt-1 justify-center">
             <span className="text-[10px] px-1 rounded bg-red-500/80 text-white">{card.attack}</span>
@@ -436,12 +436,11 @@ function StatComparison({
   )
 }
 
-function getCardEmoji(type: string): string {
-  const emojis: Record<string, string> = {
-    Attack: '⚔️',
-    Defense: '🛡️',
-    Support: '✨',
-    Special: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getCardEmoji(card: Card): string {
+  if (!card) return '🎴'
+  // Derive display type from card stats
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
 }
