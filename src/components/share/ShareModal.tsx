@@ -215,7 +215,7 @@ export function ShareModal({ isOpen, onClose, data, referralCode }: ShareModalPr
             </Button>
 
             {/* Native Share (mobile) */}
-            {typeof navigator !== 'undefined' && navigator.share && (
+            {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
               <Button
                 variant="outline"
                 className="col-span-2 flex items-center justify-center gap-2 border-white/20 text-white hover:bg-white/10"
