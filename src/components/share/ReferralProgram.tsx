@@ -118,7 +118,7 @@ export function ReferralProgram({ address, className = '' }: ReferralProgramProp
           <span className="text-xs text-gray-400">Facebook</span>
         </button>
 
-        {typeof navigator !== 'undefined' && navigator.share && (
+        {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
           <button
             onClick={() => handleShare('native')}
             className="flex flex-col items-center gap-2 p-3 bg-black/30 rounded-xl border border-white/10 hover:border-white/20 transition-colors"
