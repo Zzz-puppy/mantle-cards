@@ -110,7 +110,7 @@ export async function nativeShare(
   data: ShareData,
   referralCode?: string
 ): Promise<boolean> {
-  const shareData: ShareData & { url: string } = {
+  const shareData = {
     title: 'AI Trading Card Game',
     text: generateShareText(data),
     url: generateReferralLink(referralCode),
