@@ -84,10 +84,10 @@ export function MarketplaceGrid({
 
     // Apply sorting
     const rarityOrder: Record<CardRarity, number> = {
-      Common: 1,
-      Rare: 2,
-      Epic: 3,
-      Legendary: 4,
+      common: 1,
+      rare: 2,
+      epic: 3,
+      legendary: 4,
     }
 
     result.sort((a, b) => {
@@ -168,10 +168,10 @@ export function MarketplaceGrid({
                        focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
           >
             <option value="All">All Rarities</option>
-            <option value="Common">Common</option>
-            <option value="Rare">Rare</option>
-            <option value="Epic">Epic</option>
-            <option value="Legendary">Legendary</option>
+            <option value="common">Common</option>
+            <option value="rare">Rare</option>
+            <option value="epic">Epic</option>
+            <option value="legendary">Legendary</option>
           </select>
 
           {/* Price Range */}
