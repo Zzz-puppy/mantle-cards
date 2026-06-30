@@ -263,6 +263,7 @@ src/
 │   ├── agent-data.ts            # Agent related data
 │   ├── ai-analyzer.ts           # AI analysis logic
 │   ├── ai-profiles.ts           # AI opponent definitions
+│   ├── battle-data.ts           # Battle deck data service
 │   ├── battle-engine.ts         # Battle simulation engine
 │   ├── battle-recorder.ts       # Battle history recording
 │   ├── card-generator.ts         # Card generation logic
