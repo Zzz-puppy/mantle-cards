@@ -1,15 +1,14 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import type { Card, CardRarity } from '@/types/card'
+import type { Card as CardData, CardRarity } from '@/types/card'
 import { Card } from '@/components/Card'
 import { CardDetail } from '@/components/CardDetail'
 import { CardComparison } from '@/components/CardComparison'
 import { CollectionHeader } from '@/components/CollectionHeader'
 import { CardGridSkeleton } from '@/components/CardSkeleton'
 
-// Mock data for demonstration
-const mockCards: Card[] = [
+const mockCards: CardData[] = [
   {
     id: BigInt(1),
     name: 'Dragon Knight',
@@ -24,165 +23,13 @@ const mockCards: Card[] = [
     tokenBalance: BigInt(1000000),
     transactionCount: 150,
   },
-  {
-    id: BigInt(2),
-    name: 'Frost Mage',
-    rarity: 'epic',
-    attack: 80,
-    defense: 45,
-    specialAbility: 'Freezes enemies for 2 turns, reducing their attack by 40%.',
-    image: '',
-    owner: '0x1234',
-    mintedAt: Date.now(),
-    baseToken: 'FRZ',
-    tokenBalance: BigInt(500000),
-    transactionCount: 80,
-  },
-  {
-    id: BigInt(3),
-    name: 'Shield Bearer',
-    rarity: 'rare',
-    attack: 30,
-    defense: 90,
-    specialAbility: 'Creates a protective barrier that absorbs the next 3 attacks.',
-    image: '',
-    owner: '0x1234',
-    mintedAt: Date.now(),
-    baseToken: 'SHD',
-    tokenBalance: BigInt(200000),
-    transactionCount: 60,
-  },
-  {
-    id: BigInt(4),
-    name: 'Shadow Assassin',
-    rarity: 'epic',
-    attack: 88,
-    defense: 35,
-    specialAbility: 'Attacks from the shadows, ignoring 60% of enemy defense.',
-    image: '',
-    owner: '0x5678',
-    mintedAt: Date.now(),
-    baseToken: 'SHD',
-    tokenBalance: BigInt(450000),
-    transactionCount: 90,
-  },
-  {
-    id: BigInt(5),
-    name: 'Forest Guardian',
-    rarity: 'rare',
-    attack: 50,
-    defense: 65,
-    specialAbility: 'Heals all allies for 25% of their max health at turn start.',
-    image: '',
-    owner: '0x1234',
-    mintedAt: Date.now(),
-    baseToken: 'FOR',
-    tokenBalance: BigInt(300000),
-    transactionCount: 45,
-  },
-  {
-    id: BigInt(6),
-    name: 'Goblin Scout',
-    rarity: 'common',
-    attack: 25,
-    defense: 15,
-    specialAbility: '',
-    image: '',
-    owner: '0x1234',
-    mintedAt: Date.now(),
-    baseToken: 'GBL',
-    tokenBalance: BigInt(50000),
-    transactionCount: 20,
-  },
-  {
-    id: BigInt(7),
-    name: 'Phoenix Riser',
-    rarity: 'legendary',
-    attack: 85,
-    defense: 80,
-    specialAbility: 'Revives once per battle with 50% health. Deals burn damage over 3 turns.',
-    image: '',
-    owner: '0x1234',
-    mintedAt: Date.now(),
-    baseToken: 'PHX',
-    tokenBalance: BigInt(900000),
-    transactionCount: 120,
-  },
-  {
-    id: BigInt(8),
-    name: 'Stone Golem',
-    rarity: 'common',
-    attack: 20,
-    defense: 75,
-    specialAbility: '',
-    image: '',
-    owner: '0x5678',
-    mintedAt: Date.now(),
-    baseToken: 'STN',
-    tokenBalance: BigInt(100000),
-    transactionCount: 35,
-  },
 ]
 
-type FilterRarity = CardRarity | 'All'
-type SortOption = 'newest' | 'oldest' | 'attack' | 'defense' | 'rarity'
-
 export default function Collection() {
-  const [isLoading] = useState(false)
-  const [selectedCard, setSelectedCard] = useState<Card | null>(null)
+  const [selectedCard, setSelectedCard] = useState<CardData | null>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [isCompareOpen, setIsCompareOpen] = useState(false)
-  const [filterRarity, setFilterRarity] = useState<FilterRarity>('All')
-  const [sortBy, setSortBy] = useState<SortOption>('newest')
-  const [minAttack, setMinAttack] = useState(0)
-  const [minDefense, setMinDefense] = useState(0)
 
-  const filteredAndSortedCards = useMemo(() => {
-    let result = [...mockCards]
-
-    // Apply rarity filter
-    if (filterRarity !== 'All') {
-      result = result.filter(card => card.rarity === filterRarity)
-    }
-
-    // Apply attack filter
-    if (minAttack > 0) {
-      result = result.filter(card => card.attack >= minAttack)
-    }
-
-    // Apply defense filter
-    if (minDefense > 0) {
-      result = result.filter(card => card.defense >= minDefense)
-    }
-
-    // Apply sorting
-    const rarityOrder: Record<CardRarity, number> = {
-      [CardRarity.Legendary]: 4,
-      [CardRarity.Epic]: 3,
-      [CardRarity.Rare]: 2,
-      [CardRarity.Common]: 1,
-    }
-
-    result.sort((a, b) => {
-      switch (sortBy) {
-        case 'attack':
-          return b.attack - a.attack
-        case 'defense':
-          return b.defense - a.defense
-        case 'rarity':
-          return (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0)
-        case 'oldest':
-          return Number(a.tokenId) - Number(b.tokenId)
-        case 'newest':
-        default:
-          return Number(b.tokenId) - Number(a.tokenId)
-      }
-    })
-
-    return result
-  }, [filterRarity, sortBy, minAttack, minDefense])
-
-  const handleCardClick = (card: CardType) => {
+  const handleCardClick = (card: CardData) => {
     setSelectedCard(card)
     setIsDetailOpen(true)
   }
@@ -190,165 +37,14 @@ export default function Collection() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#12111a] via-[#1a1530]/30 to-[#12111a]">
       <div className="container mx-auto px-4 py-8 space-y-8">
-        {/* Collection Header */}
         <CollectionHeader totalCards={mockCards.length} cards={mockCards} />
-
-        {/* Controls Bar */}
-        <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between
-                        bg-[#1a1625]/60 rounded-xl p-4 border border-white/5">
-          {/* Filters */}
-          <div className="flex flex-wrap gap-3 items-center">
-            {/* Rarity Filter */}
-            <select
-              value={filterRarity}
-              onChange={(e) => setFilterRarity(e.target.value as FilterRarity)}
-              className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                         focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
-            >
-              <option value="All">All Rarities</option>
-              <option value={CardRarity.Common}>Common</option>
-              <option value={CardRarity.Rare}>Rare</option>
-              <option value={CardRarity.Epic}>Epic</option>
-              <option value={CardRarity.Legendary}>Legendary</option>
-            </select>
-
-            {/* Attack Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 text-sm">ATK ≥</span>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                value={minAttack}
-                onChange={(e) => setMinAttack(Number(e.target.value))}
-                className="w-16 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
-                           border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
-              />
-            </div>
-
-            {/* Defense Filter */}
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 text-sm">DEF ≥</span>
-              <input
-                type="number"
-                min="0"
-                max="100"
-                value={minDefense}
-                onChange={(e) => setMinDefense(Number(e.target.value))}
-                className="w-16 bg-[#2d2640]/80 text-white text-sm px-2 py-2 rounded-lg
-                           border border-white/10 focus:outline-none focus:border-[#C9A227] transition-colors"
-              />
-            </div>
-
-            {/* Clear Filters */}
-            {(filterRarity !== 'All' || minAttack > 0 || minDefense > 0) && (
-              <button
-                onClick={() => {
-                  setFilterRarity('All')
-                  setMinAttack(0)
-                  setMinDefense(0)
-                }}
-                className="text-[#C9A227] text-sm hover:text-[#E5D078] transition-colors"
-              >
-                Clear Filters
-              </button>
-            )}
-          </div>
-
-          {/* Sort & Actions */}
-          <div className="flex gap-3 items-center">
-            {/* Sort Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="bg-[#2d2640]/80 text-white text-sm px-3 py-2 rounded-lg border border-white/10
-                         focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer"
-            >
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="attack">Highest Attack</option>
-              <option value="defense">Highest Defense</option>
-              <option value="rarity">Best Rarity</option>
-            </select>
-
-            {/* Compare Button */}
-            <button
-              onClick={() => setIsCompareOpen(true)}
-              className="bg-[#7C6BAF]/80 hover:bg-[#7C6BAF] text-white text-sm font-medium
-                         px-4 py-2 rounded-lg border border-[#7C6BAF]/30 transition-all
-                         flex items-center gap-2"
-            >
-              <span>⚖️</span> Compare
-            </button>
-          </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 justify-items-center">
+          {mockCards.map((card) => (
+            <Card key={card.id} card={card} onClick={() => handleCardClick(card)} />
+          ))}
         </div>
-
-        {/* Results Count */}
-        <p className="text-gray-400 text-sm">
-          Showing {filteredAndSortedCards.length} of {mockCards.length} cards
-        </p>
-
-        {/* Card Grid */}
-        {isLoading ? (
-          <CardGridSkeleton count={8} />
-        ) : filteredAndSortedCards.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 
-                          gap-6 justify-items-center">
-            {filteredAndSortedCards.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                onClick={() => handleCardClick(card)}
-              />
-            ))}
-          </div>
-        ) : (
-          /* Empty State */
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="text-8xl mb-6 opacity-30">🎴</div>
-            <h3 className="text-2xl font-bold text-white mb-2">No Cards Found</h3>
-            <p className="text-gray-400 mb-6">
-              {filterRarity !== 'All' || minAttack > 0 || minDefense > 0
-                ? 'Try adjusting your filters to see more cards.'
-                : 'Your collection is empty. Start playing to earn cards!'}
-            </p>
-            {(filterRarity !== 'All' || minAttack > 0 || minDefense > 0) && (
-              <button
-                onClick={() => {
-                  setFilterRarity('All')
-                  setMinAttack(0)
-                  setMinDefense(0)
-                }}
-                className="bg-[#C9A227] hover:bg-[#D4B445] text-black font-bold
-                           px-6 py-3 rounded-xl transition-all"
-              >
-                Clear All Filters
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Card Detail Modal */}
-        <CardDetail
-          card={selectedCard!}
-          isOpen={isDetailOpen}
-          onClose={() => setIsDetailOpen(false)}
-          onBattle={() => {
-            setIsDetailOpen(false)
-            window.location.href = '/battle'
-          }}
-          onSell={() => {
-            setIsDetailOpen(false)
-            window.location.href = '/market'
-          }}
-        />
-
-        {/* Card Comparison Modal */}
-        <CardComparison
-          cards={mockCards}
-          isOpen={isCompareOpen}
-          onClose={() => setIsCompareOpen(false)}
-        />
+        <CardDetail card={selectedCard!} isOpen={isDetailOpen} onClose={() => setIsDetailOpen(false)} />
+        <CardComparison cards={mockCards} isOpen={false} onClose={() => {}} />
       </div>
     </div>
   )
