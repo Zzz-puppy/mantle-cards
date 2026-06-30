@@ -73,7 +73,7 @@ export function CardAnalyzer({ cards, onClose }: CardAnalyzerProps) {
                     : 'border-white/10 bg-black/30 hover:border-white/30 hover:bg-black/50'
                 }`}
               >
-                <div className="text-3xl mb-1">{getCardEmoji(card.type)}</div>
+                <div className="text-3xl mb-1">{getCardEmoji(card)}</div>
                 <div className="text-xs text-white truncate">{card.name}</div>
                 <div className="flex gap-1 mt-1 justify-center">
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-500/80 text-white">
@@ -358,12 +358,11 @@ function StatBar({ label, value, color }: { label: string; value: number; color:
   )
 }
 
-function getCardEmoji(type: string): string {
-  const emojis: Record<string, string> = {
-    Attack: '⚔️',
-    Defense: '🛡️',
-    Support: '✨',
-    Special: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getCardEmoji(card: Card): string {
+  if (!card) return '🎴'
+  // Derive display type from card stats
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
 }
