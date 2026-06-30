@@ -48,13 +48,13 @@ export function TeamBuilder({ cards, maxTeamSize = 5, onClose }: TeamBuilderProp
     if (selectedCards.length === 0) return []
     
     // Find cards that would complement the current selection
-    const types = selectedCards.map(c => c.type)
+    const types = selectedCards.map(c => getCardTypeFromStats(c))
     return cards
       .filter(c => !selectedCards.some(s => s.id === c.id))
       .sort((a, b) => {
         // Prioritize complementary types
-        const aComplement = !types.includes(a.type) ? 1 : 0
-        const bComplement = !types.includes(b.type) ? 1 : 0
+        const aComplement = !types.includes(getCardTypeFromStats(a)) ? 1 : 0
+        const bComplement = !types.includes(getCardTypeFromStats(b)) ? 1 : 0
         return bComplement - aComplement
       })
       .slice(0, 4)
@@ -261,7 +261,7 @@ export function TeamBuilder({ cards, maxTeamSize = 5, onClose }: TeamBuilderProp
                       : 'border-white/10 bg-black/30 hover:border-white/30 hover:bg-black/50'
                 }`}
               >
-                <div className="text-2xl mb-1">{getCardEmoji(card.type)}</div>
+                <div className="text-2xl mb-1">{getCardEmoji(card)}</div>
                 <div className="text-xs text-white truncate">{card.name}</div>
                 <div className="flex gap-1 mt-1 justify-center">
                   <span className="text-[10px] px-1 py-0.5 rounded bg-red-500/80 text-white">
@@ -294,7 +294,7 @@ export function TeamBuilder({ cards, maxTeamSize = 5, onClose }: TeamBuilderProp
                   onClick={() => handleCardToggle(card)}
                   className="shrink-0 p-3 rounded-xl border border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20 transition-all"
                 >
-                  <div className="text-2xl mb-1">{getCardEmoji(card.type)}</div>
+                  <div className="text-2xl mb-1">{getCardEmoji(card)}</div>
                   <div className="text-xs text-white whitespace-nowrap">{card.name}</div>
                   <div className="text-[10px] text-purple-400 mt-1">+Synergy</div>
                 </button>
@@ -320,7 +320,7 @@ function TeamCard({ card, position }: { card: Card; position: number }) {
   return (
     <div className="shrink-0 w-[100px] p-2 rounded-xl bg-gradient-to-br from-purple-900/50 to-pink-900/50 border border-purple-500/30">
       <div className="text-center">
-        <div className="text-3xl mb-1">{getCardEmoji(card.type)}</div>
+        <div className="text-3xl mb-1">{getCardEmoji(card)}</div>
         <div className="text-[10px] text-purple-400 uppercase tracking-wider">
           {positionLabels[position] || 'Flex'}
         </div>
@@ -350,7 +350,17 @@ function PositionIcon({ position }: { position: string }) {
   return <span>{icons[position] || '⚪'}</span>
 }
 
-function getCardEmoji(type: string): string {
+// Helper to derive card type from stats
+function getCardTypeFromStats(card: Card): string {
+  if (card.attack >= 70 && card.defense < 50) return 'Attack'
+  if (card.defense >= 70 && card.attack < 50) return 'Defense'
+  if (card.specialAbility && card.attack >= 50) return 'Special'
+  return 'Support'
+}
+
+function getCardEmoji(card: Card): string {
+  if (!card) return '🎴'
+  const type = getCardTypeFromStats(card)
   const emojis: Record<string, string> = {
     Attack: '⚔️',
     Defense: '🛡️',
