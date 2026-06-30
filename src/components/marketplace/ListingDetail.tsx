@@ -116,7 +116,7 @@ export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }:
                 <div className="absolute top-16 left-3 right-3 bottom-24 rounded-lg overflow-hidden bg-black/30 backdrop-blur-sm border border-white/10">
                   <div className="w-full h-full flex items-center justify-center">
                     <span className="text-7xl filter drop-shadow-2xl animate-card-float">
-                      {getCardEmoji(card?.type || CardTypeEnum.Attack)}
+                      {getCardEmoji(card)}
                     </span>
                   </div>
                 </div>
@@ -133,9 +133,9 @@ export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }:
                       <span>{defense}</span>
                     </div>
                   </div>
-                  {card?.ability && (
+                  {card?.specialAbility && (
                     <p className="text-[10px] text-white/70 italic mt-2 line-clamp-2">
-                      {card.ability}
+                      {card.specialAbility}
                     </p>
                   )}
                 </div>
@@ -182,17 +182,17 @@ export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }:
             {/* Card Type & Ability */}
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <span className="text-2xl">{getCardEmoji(card?.type || CardTypeEnum.Attack)}</span>
+                <span className="text-2xl">{getCardEmoji(card)}</span>
                 <div>
                   <p className="text-xs text-gray-400">Card Type</p>
-                  <p className="text-white font-medium">{card?.type || 'Unknown'}</p>
+                  <p className="text-white font-medium">{getCardTypeName(card)}</p>
                 </div>
               </div>
 
-              {card?.ability && (
+              {card?.specialAbility && (
                 <div className="bg-[#7C6BAF]/10 rounded-xl p-4 border border-[#7C6BAF]/20">
                   <p className="text-xs text-[#7C6BAF] uppercase tracking-wide mb-1">Special Ability</p>
-                  <p className="text-white text-sm">{card.ability}</p>
+                  <p className="text-white text-sm">{card.specialAbility}</p>
                 </div>
               )}
 
@@ -241,12 +241,18 @@ export function ListingDetail({ listing, card, isOpen, onClose, onBuy, onSell }:
   )
 }
 
-function getCardEmoji(type: CardTypeEnum): string {
-  const emojis: Record<CardTypeEnum, string> = {
-    [CardTypeEnum.Attack]: '⚔️',
-    [CardTypeEnum.Defense]: '🛡️',
-    [CardTypeEnum.Support]: '✨',
-    [CardTypeEnum.Special]: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getCardEmoji(card?: Card): string {
+  if (!card) return '🎴'
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
+}
+
+function getCardTypeName(card?: Card): string {
+  if (!card) return 'Unknown'
+  if (card.attack >= 70 && card.defense < 50) return 'Attack'
+  if (card.defense >= 70 && card.attack < 50) return 'Defense'
+  if (card.specialAbility && card.attack >= 50) return 'Special'
+  return 'Support'
 }
