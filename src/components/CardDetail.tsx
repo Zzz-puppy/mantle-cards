@@ -74,7 +74,7 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-white">{card.name}</h2>
-                <p className="text-gray-400 text-sm">Token ID: #{card.tokenId.toString()}</p>
+                <p className="text-gray-400 text-sm">Token ID: #{card.id.toString()}</p>
               </div>
               <RarityBadge rarity={card.rarity} />
             </div>
@@ -115,17 +115,17 @@ export function CardDetail({ card, isOpen, onClose, onBattle, onSell }: CardDeta
               {/* Type & Ability */}
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{getTypeEmoji(card.type)}</span>
+                  <span className="text-2xl">{getTypeEmoji(card)}</span>
                   <div>
                     <p className="text-xs text-gray-400">Card Type</p>
-                    <p className="text-white font-medium">{card.type}</p>
+                    <p className="text-white font-medium">{getCardTypeName(card)}</p>
                   </div>
                 </div>
 
-                {card.ability && (
+                {card.specialAbility && (
                   <div className="bg-purple-500/10 rounded-xl p-4 border border-purple-500/20">
                     <p className="text-xs text-purple-400 uppercase tracking-wide mb-1">Special Ability</p>
-                    <p className="text-white text-sm">{card.ability}</p>
+                    <p className="text-white text-sm">{card.specialAbility}</p>
                   </div>
                 )}
               </div>
@@ -378,12 +378,16 @@ function TransactionItem({ type, date }: { type: string; date: string }) {
   )
 }
 
-function getTypeEmoji(type: string): string {
-  const emojis: Record<string, string> = {
-    Attack: '⚔️',
-    Defense: '🛡️',
-    Support: '✨',
-    Special: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getTypeEmoji(card: CardType): string {
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '✨'
+}
+
+function getCardTypeName(card: CardType): string {
+  if (card.attack >= 70 && card.defense < 50) return 'Attack'
+  if (card.defense >= 70 && card.attack < 50) return 'Defense'
+  if (card.specialAbility && card.attack >= 50) return 'Special'
+  return 'Support'
 }
