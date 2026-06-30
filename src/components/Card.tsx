@@ -187,7 +187,7 @@ export function Card({
       {/* Rarity Glow Border */}
       <div className={cn(
         "absolute inset-0 rounded-xl border-2 pointer-events-none transition-all duration-300",
-        rarityBorders[card.rarity as RarityType],
+        rarityBorders[card.rarity as CardRarity],
         isHovered && "scale-[1.02]"
       )} />
 
@@ -214,7 +214,7 @@ export function Card({
         isSelected && "ring-4 ring-[#C9A227] ring-offset-2 ring-offset-[#12111a]"
       )}
       style={{
-        boxShadow: isHovered && !disabled ? getHoverShadow(card.rarity as RarityType) : undefined,
+        boxShadow: isHovered && !disabled ? getHoverShadow(card.rarity as CardRarity) : undefined,
       }}
     >
       {cardContent}
