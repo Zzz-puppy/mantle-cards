@@ -200,7 +200,7 @@ export function getCards(): Card[] {
 export function getCardsMap(): Map<number, Card> {
   const map = new Map<number, Card>()
   mockCards.forEach(card => {
-    map.set(Number(card.tokenId), card)
+    map.set(Number(card.id), card)
   })
   return map
 }
