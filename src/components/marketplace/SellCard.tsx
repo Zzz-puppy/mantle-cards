@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { Card } from '@/types'
-import { CardRarity, CardType as CardTypeEnum } from '@/types'
+import { CardRarity } from '@/types'
 import { cn, formatEther } from '@/lib/utils'
 import { FEE_CONSTANTS } from '@/contracts'
 
@@ -17,10 +17,10 @@ interface SellCardProps {
 }
 
 const rarityGradients: Record<CardRarity, string> = {
-  Common: 'from-gray-600 to-gray-800',
-  Rare: 'from-blue-600 to-blue-900',
-  Epic: 'from-purple-600 to-purple-900',
-  Legendary: 'from-yellow-500 via-orange-500 to-red-600',
+  common: 'from-gray-600 to-gray-800',
+  rare: 'from-blue-600 to-blue-900',
+  epic: 'from-purple-600 to-purple-900',
+  legendary: 'from-yellow-500 via-orange-500 to-red-600',
 }
 
 export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProps) {
@@ -61,7 +61,7 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
     try {
       const priceInWei = BigInt(Math.floor(parseFloat(price) * 1e18))
       await onCreateListing({
-        tokenId: Number(selectedCard.tokenId),
+        tokenId: Number(selectedCard.id),
         price: priceInWei,
         description,
       })
@@ -86,7 +86,7 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <div className="text-6xl mb-4 opacity-50">🎴</div>
         <h3 className="text-xl font-bold text-white mb-2">No Cards to Sell</h3>
-        <p className="text-gray-400">You don't have any cards in your collection yet.</p>
+        <p className="text-gray-400">You don&apos;t have any cards in your collection yet.</p>
       </div>
     )
   }
@@ -141,7 +141,7 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-4xl">
-                      {getCardEmoji(card.type as CardTypeEnum)}
+                      {getCardEmoji(card)}
                     </span>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
@@ -187,18 +187,18 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
               rarityGradients[selectedCard.rarity as CardRarity]
             )}>
               <div className="w-full h-full flex items-center justify-center">
-                <span className="text-5xl">{getCardEmoji(selectedCard.type as CardTypeEnum)}</span>
+                <span className="text-5xl">{getCardEmoji(selectedCard)}</span>
               </div>
             </div>
             <div className="space-y-2">
               <h3 className="text-xl font-bold text-white">{selectedCard.name}</h3>
-              <p className="text-gray-400 text-sm">{selectedCard.rarity} • #{selectedCard.tokenId.toString()}</p>
+              <p className="text-gray-400 text-sm">{selectedCard.rarity} &bull; #{selectedCard.id.toString()}</p>
               <div className="flex gap-4 text-sm">
                 <span className="text-red-400">⚔️ {selectedCard.attack}</span>
                 <span className="text-blue-400">🛡️ {selectedCard.defense}</span>
               </div>
-              {selectedCard.ability && (
-                <p className="text-gray-400 text-xs italic">{selectedCard.ability}</p>
+              {selectedCard.specialAbility && (
+                <p className="text-gray-400 text-xs italic">{selectedCard.specialAbility}</p>
               )}
             </div>
           </div>
@@ -299,7 +299,7 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
                 rarityGradients[selectedCard.rarity as CardRarity]
               )}>
                 <div className="w-full h-full flex flex-col items-center justify-center p-4">
-                  <span className="text-6xl mb-2">{getCardEmoji(selectedCard.type as CardTypeEnum)}</span>
+                  <span className="text-6xl mb-2">{getCardEmoji(selectedCard)}</span>
                   <h4 className="text-white text-sm font-bold text-center">{selectedCard.name}</h4>
                   <span className="text-white/70 text-xs mt-1">{selectedCard.rarity}</span>
                 </div>
@@ -376,12 +376,10 @@ export function SellCard({ userCards, onCreateListing, isLoading }: SellCardProp
   )
 }
 
-function getCardEmoji(type: CardTypeEnum): string {
-  const emojis: Record<CardTypeEnum, string> = {
-    [CardTypeEnum.Attack]: '⚔️',
-    [CardTypeEnum.Defense]: '🛡️',
-    [CardTypeEnum.Support]: '✨',
-    [CardTypeEnum.Special]: '🌟',
-  }
-  return emojis[type] || '🎴'
+function getCardEmoji(card: Card): string {
+  // Derive display type from card stats
+  if (card.attack >= 70 && card.defense < 50) return '⚔️'
+  if (card.defense >= 70 && card.attack < 50) return '🛡️'
+  if (card.specialAbility && card.attack >= 50) return '🌟'
+  return '🎴'
 }
