@@ -431,7 +431,7 @@ export function AgentCapabilitySelector({
         <button
           key={cap.id}
           onClick={() => handleToggle(cap.id)}
-          disabled={!capabilities.includes(capabilityId) && capabilities.length >= maxSelection}
+          disabled={!capabilities.includes(cap.id) && capabilities.length >= maxSelection}
           className={cn(
             'p-2 rounded-lg border transition-all text-left text-sm',
             capabilities.includes(cap.id)
